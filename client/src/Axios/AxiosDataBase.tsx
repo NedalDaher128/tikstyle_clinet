@@ -5,7 +5,7 @@ import axios from 'axios';
 // قاعدة ملعومات حسابات المستخدمين 
 const axiosLogin = axios.create({
     // رابط الارسال
-    baseURL: "http://localhost:3001/api",
+    baseURL: "https://tikstyle-api.vercel.app/api",
     headers: {
         "Content-Type": 'application/json'
     }
@@ -14,8 +14,7 @@ const axiosLogin = axios.create({
 // قاعدة حسابات الادمن
 const axiosAdmin = axios.create({
     // رابط الارسال
-    baseURL: "http://localhost:3001/admin",
-    timeout: 5000,
+    baseURL: "https://tikstyle-api.vercel.app/admin",
     headers: {
         "Content-Type": 'application/json',
     }
