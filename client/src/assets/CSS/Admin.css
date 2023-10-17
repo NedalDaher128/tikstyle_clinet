@@ -1,0 +1,19 @@
+@media screen and (max-width: 900px) {
+    #body-products-add{
+        height: 200vh;
+    }
+    #box-item-inputs-add-products{
+        display: flex;
+        flex-direction: column;
+        height:  100%;
+        margin: 0;
+    }
+    #box-item-inputs-add-products div{
+            width: 90%;
+            margin-bottom: 10px;
+    }
+}
+
+
+
+

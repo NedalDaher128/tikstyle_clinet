@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'CustomFontName';
+    src: url("../font/JannaFont.ttf") format("truetype")  ;
+    /* You can define more font weights and styles if needed */
+  }
+
+
