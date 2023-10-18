@@ -84,11 +84,11 @@ module.exports.login = async (req, res) => {
         const account = await AccountDB.login(username, password);
         const token = Token_generation(account._id); // تم تغيير req._id إلى account._id
         console.log(token);
-        res.status(201).json({ message: "Login succeeded", token: token });
+        res.status(201).json({ message: "Login succeeded", token, account, Status: true });
     } catch (error) {
         const messageerror = await handleErrors(error); // تم تصحيح هندسة الأخطاء هنا
         console.log(error)
-        res.status(409).json({ error });
+        res.status(409).json({ messageerror });
     }
 };
 
@@ -98,7 +98,7 @@ module.exports.get_product = async (req, res) => {
         // Modified part: Use the DBPRODUCT pipeline to get 6 products with the same number of elements
         const result = await DBPRODUCT.aggregate([
             {
-                $sample: { size:10 }
+                $sample: { size: 10 }
             },
             {
                 $match: { $sampleRate: 1 }
@@ -122,19 +122,19 @@ module.exports.get_product = async (req, res) => {
 };
 
 module.exports.filter_product = async (req, res) => {
-    const { type , Category } = req.query;
+    const { type, Category } = req.query;
     console.log(type, Category);
     try {
-        if(type != "null" && Category != undefined){
+        if (type != "null" && Category != undefined) {
             const result = await DBPRODUCT.find({ type, Category });
             console.log(result);
             res.status(201).json({ result });
-        }else if(type != "" && Category == undefined){
+        } else if (type != "" && Category == undefined) {
             const result = await DBPRODUCT.find({ type });
             res.status(201).json({ result });
 
         }
-        else{
+        else {
             const result = await DBPRODUCT.find({});
             res.status(201).json({ result });
         }
@@ -149,14 +149,14 @@ module.exports.use_coupon = async (req, res) => {
         const { coupon } = req.body;
         console.log(coupon);
         const result = await DBCOUPON.findOne({ coupon: coupon });
-        
+
         if (result) {
             const { _id } = result;
             const use = await DBCOUPON.findOneAndDelete({ _id });
-            
+
             if (use) {
                 console.log("true");
-                return res.status(201).json({ result: true,use });
+                return res.status(201).json({ result: true, use });
             }
         }
 
@@ -171,7 +171,7 @@ module.exports.check_token = async (req, res) => {
         const token = req.headers.authorization.split(" ")[1];
         const result = await jwt.verify(token, encryption);
         if (result) {
-            return res.status(201).json({ result: true , token:result });
+            return res.status(201).json({ result: true, token: result });
         }
     } catch (error) {
         console.log(error);
@@ -180,7 +180,7 @@ module.exports.check_token = async (req, res) => {
 };
 module.exports.add_order = async (req, res) => {
     try {
-        const { id, cart, address, name, city, phone,price } = req.body;
+        const { id, cart, address, name, city, phone, price } = req.body;
         console.log(cart)
         const result = await new DBORDER({
             user: id,
@@ -197,7 +197,7 @@ module.exports.add_order = async (req, res) => {
         console.log(error);
         return res.status(500).json({ error });
     }
-}   
+}
 
 
 
