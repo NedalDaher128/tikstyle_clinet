@@ -68,7 +68,7 @@ function show_products() {
       {shoes.map((shoe) => (
         <div key={shoe.mainImage} className='effect_car flex flex-col items-center justify-center rounded-lg border-2  h-[400px] w-[250px] transition-all    '>
         <div className='flex flex-col items-center justify-center space-y-3'>
-          <img className='rounded-lg max-w-fit' src={`http://localhost:3001${shoe.mainImage}`} alt="" />
+          <img className='rounded-lg max-w-fit' src={`https://tikstyle-api.vercel.app${shoe.mainImage}`} alt="" />
           <div className='flex flex-col justify-between w-full'>
             <p className='text-2xl'>{shoe.name}</p>
           </div>

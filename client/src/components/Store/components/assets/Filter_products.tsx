@@ -145,7 +145,7 @@ function Filter_products() {
             shoe.images.map((image: any) => (
               <div className='effect_car flex flex-col items-center justify-center rounded-lg border-2 h-[400px] w-[250px]    '>
                 <div className='flex flex-col items-center justify-center space-y-3'>
-                  <img className='rounded-lg max-w-fit' src={`http://localhost:3001${image.filename}`} alt='' />
+                  <img className='rounded-lg max-w-fit' src={`https://tikstyle-api.vercel.app${image.filename}`} alt='' />
                   <div className='flex flex-col justify-between w-full'>
                     <p className='text-2xl'>{shoe.name}</p>
                   </div>
