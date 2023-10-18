@@ -1,25 +1,59 @@
-/* جعل ناف بار متوافق مع شاشة الهاتف */
-.hidden_element {
+.header {
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    background: #fff;
+    padding: 2rem 9%;
+    display: fixed;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+}
+
+.header .logo {
+    font-size: 2rem;
+    color: #000;
+    font-weight: 500;
+}
+
+.header .navbar a {
+    font-size: 1.5rem;
+    color: #000;
+    margin: 0 3rem;
+    width: 140px;
+    background-color: red;
+}
+
+.header .navbar a:hover {
+    color: orangered;
+}
+.header .icons  {
+    color: #000;
+    margin-left: 1.5rem;
+}
+
+.hidden-menu {
     display: none;
 }
 
-.show_grub_icon_shop{
-    display: block;
-}
-.show_button_from_menu{
+
+#menu-bar {
+    font-size: 2rem;
+    padding: .5rem 1rem;
+    border: .1rem solid #000;
+    color: #000;
+    border-radius: .3rem;
+    cursor: pointer;
     display: none;
 }
-.grub_item_button {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 190px;
-}
+
 
 input[type="file"] {
     display: none;
 }
-.overflow{
+
+.overflow {
     background-color: rgba(0, 0, 0, 0.4);
     height: 100%;
     width: 100%;
@@ -29,20 +63,25 @@ input[type="file"] {
     align-items: center;
     z-index: 1000;
 }
+
 .overflowcart {
-    background-color: rgba(0, 0, 0, 0.8); /* زينة الخلفية بلون أسود */
-    position: fixed; /* تثبيت القائمة في الشاشة */
+    background-color: rgba(0, 0, 0, 0.8);
+    /* زينة الخلفية بلون أسود */
+    position: fixed;
+    /* تثبيت القائمة في الشاشة */
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     display: flex;
-    justify-content: flex-start; /* يمكن تغييرها إلى "center" إذا كنت تريد وسط العناصر */
-    align-items: flex-start; /* يمكن تغييرها إلى "center" إذا كنت تريد وسط العناصر */
+    justify-content: flex-start;
+    /* يمكن تغييرها إلى "center" إذا كنت تريد وسط العناصر */
+    align-items: flex-start;
+    /* يمكن تغييرها إلى "center" إذا كنت تريد وسط العناصر */
     z-index: 1000;
-  }
-  
-.show_image{
+}
+
+.show_image {
     display: block;
     width: 1000px;
     height: 500px;
@@ -50,33 +89,36 @@ input[type="file"] {
     background-color: white;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 964px) {
+
     /* الهيدر هو اي دي الخاص للعنصر ناف والذي يحتوي على جميع العناصر */
-    #header {
-        flex-direction: column;
-        height: 400px;
-    }
 
+    .hidden-menu{
+        display: block;
+    }
     /* هنا اخصص الروابط الانتقال السريعة */
-    #header ul {
-        display: flex;
-        flex-direction: column;
-        background-color: white;
-        width: 100%;
-        height: 200px;
+    .header  {
         border-radius: 10px;
-        justify-content: space-evenly;
-        box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2); /* الظل */
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease-in-out;
+        /* تأثير الانتقال */
+    }
+    .header nav {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        font-size: 1.2rem;
+        /* عند إظهار القائمة تتحول إلى الحجم الأصلي */
+    }
+    .icons{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
         align-items: center;
-        transform: scaleY(0); /* ستكون القائمة غير مرئية بشكل افتراضي */
-        transform-origin: top; /* يحدد نقطة التدوير من الجزء العلوي */
-        transition: transform 0.3s ease-in-out; /* تأثير الانتقال */
+        font-size: 0.9rem;
     }
-
     /* هنا اضف كلاس لأظهار ايقونة القائمة عند الحاجة */
-    #header ul.show_icon {
-        transform: scaleY(1); /* عند إظهار القائمة تتحول إلى الحجم الأصلي */
-    }
+ 
 
     /* يوكس يحتوي على العنوان الرئيسي ويحتوي على ايقونة القائمة */
     #box_title {
@@ -84,12 +126,12 @@ input[type="file"] {
     }
 
     /* كلاس لإظهار ايقونة القائمة عند تصغير الشاشة */
-    .hidden_element {
-        display: block;
-    }
+
+
     .show_button_from_menu {
         display: block;
     }
+
     .grub_item_button {
         display: flex;
         flex-direction: row;
@@ -97,59 +139,114 @@ input[type="file"] {
         align-items: center;
         width: 300px;
     }
+
     .dataGrid-responve {
         max-width: 70%;
     }
-    #box-features-home{
+
+    #box-features-home {
         flex-direction: column;
     }
-    #responev-show-products{
+
+    #responev-show-products {
         grid-template-columns: repeat(2, 1fr);
     }
-    #menu_cart_responev{
+
+    #menu_cart_responev {
         flex-direction: column;
     }
-    #menu_cart_responev img{
+
+    #menu_cart_responev img {
         width: 40%;
     }
-    #menu_cart_responev #menu_grub_cart{
+
+    #menu_cart_responev #menu_grub_cart {
         flex-direction: column;
         justify-content: center;
         align-items: center;
     }
 
-
-    /* اكواد خاصة للصفحة الرئيسية */
 
 
 }
 
 
 /* جعل صفحة تسجيل الدخول متوافقة مع شاشات الهاتف */
-.img_background{
+.img_background {
     width: 60%
 }
-@media screen and (max-width: 750px) {
-    #content_login{
+
+@media screen and (max-width: 896px) {
+    .hidden-menu{
+        display: block;
+    }
+    .header  {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        height: 350px;
+        border-radius: 10px;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        /* الظل */
+        transition: transform 0.3s ease-in-out;
+        /* تأثير الانتقال */
+    }
+    .header nav {
+        display: flex;
+        align-content: center;
+        margin: 10px;
+        justify-content:  center;
+        flex-direction: column;
+        text-align: center;
+        font-size: 2rem;
+        /* عند إظهار القائمة تتحول إلى الحجم الأصلي */
+    }
+    #content_login {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
     }
-    .img_background{
+    .header.show {  
+        display: flex;
+    }
+
+    .img_background {
         width: 450px;
+    }
+    .icons span{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        border:  1px solid black;   
+        margin:5px ;
+        width: 100%;
+        height: 50px;
+    }
+    .sub_icons{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        border:  1px solid black;   
+        width: 100%;
     }
 }
 
 /* تجهيز الفووتر  */
-#footer{
+#footer {
     height: 300px;
     background-color: #000;
     padding: 50px;
 }
-#box_footer{
+
+#box_footer {
     width: 200px;
 }
+
 /* تغيير تخطيط الفوتر عند حجم الشاشة الصغيرة (الهواتف) */
 @media (max-width: 680px) {
     #footer {
