@@ -86,8 +86,9 @@ module.exports.login = async (req, res) => {
         console.log(token);
         res.status(201).json({ message: "Login succeeded", token, account, Status: true });
     } catch (error) {
-        const messageerror = await handleErrors(error); // تم تصحيح هندسة الأخطاء هنا
         console.log(error)
+        const messageerror = await handleErrors(error); // تم تصحيح هندسة الأخطاء هنا
+        console.log(messageerror);
         res.status(409).json({ messageerror });
     }
 };
