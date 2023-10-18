@@ -46,10 +46,11 @@ export default function Login() {
     const AxiosLogin = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // منع إعادة تحميل الصفحة الافتراضية للنموذج
         try {
-            await AxiosDataBase.axiosLogin.post('/login', valueform).then((res) => {
-                dispatch(login(res.data));
+           const respone = await AxiosDataBase.axiosLogin.post('/login', valueform)
+            if (respone.status === 201) {
+                dispatch(login(respone));
                 show_message();
-            });
+            }
             // إعادة توجيه المستخدم بعد الانتهاء من الإرسال
         } catch (error) {
             console.error(error);

@@ -214,7 +214,7 @@ module.exports.add_product = async (req, res) => {
             return {
                 filename: `/images/${item.name}`,
                 color: item.color
-
+                
             }
         });
 
