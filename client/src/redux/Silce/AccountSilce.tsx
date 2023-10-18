@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import Cookies from "universal-cookie";
-const cookies = new Cookies(null, { path: '/' });
+import Cookies from 'js-cookie';
 
 interface Account {
   Status: boolean;
@@ -12,10 +11,9 @@ interface Account {
     heart: number;
   };
 }
-// localStorage.getItem("Status") === "true"
-// جلب قيمة "Status" من localStorage إذا كانت موجودة، وإلا استخدم القيمة الافتراضية false
+
 const initialState: Account = {
-  Status: cookies.get("status") === true ? true : false,
+  Status: Cookies.get("status") === 'true',
   AccountUsers: {
     token: ""
   },
@@ -31,12 +29,9 @@ const AccountSlice = createSlice({
   reducers: {
     login: (state, action) => {
       state.AccountUsers = action.payload.data.NewAccount;
-      cookies.set("tokenUser", action.payload.data.token);
-      cookies.set("status", true as boolean , { path: '/' } ); 
+      Cookies.set("tokenUser", action.payload.data.token);
+      Cookies.set("status", action.payload.data.Status.toString(), { path: '/' });
       localStorage.setItem('Account', JSON.stringify(state.AccountUsers));
-      // تعيين قيمة "Status" في localStorage استنادًا إلى قيمة "Status" في Redux
-      localStorage.setItem('Status', action.payload.data.Status  ? "true" : "false");
-
     },
   },
 });

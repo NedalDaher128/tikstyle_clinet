@@ -25,8 +25,7 @@ import HomePageAdmin from './components/Admin/page/HomePageAdmin';
 // مكتبة ارسال الطلبات
 import AxiosDataBase from './Axios/AxiosDataBase';
 // مكتبة تخزين البيانات في الكوكيز
-import Cookie from 'universal-cookie';
-
+import  Cookie  from 'js-cookie';
 
 // صفحة اضافة المنتجات
 import PageAddProduct from  './components/Admin/page/PageAddProducts'
@@ -54,7 +53,7 @@ document.dir = 'rtl';
 
 export default function App() {
   // تخزين البيانات في الكوكيز
-  const cookies = new Cookie();
+  const cookies  =  Cookie;
   // اعادة التوجيه
   // refresh token
   setInterval(() => {
