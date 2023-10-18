@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBoltLightning, faHandshakeAngle, faStore } from '@fortawesome/free-solid-svg-icons';
 import {  Box } from '@mui/material'; // أضفت Box هنا
-import Image from '../../../assets/img/HomeStore/صورة 1.png'
 import Image2 from '../../../assets/img/HomeStore/background.png'
 import Image3 from '../../../assets/img/HomeStore/background2.png'
 import Image4 from '../../../assets/img/HomeStore/background3.png'
 import AxiosDataBase from '../../../Axios/AxiosDataBase';
 import Show_products from './assets/show_products';
+import Slider_image from './assets/slider_image';
 
 function home() {
     const [shoes, setshoes] = useState<any[]>([])
@@ -47,14 +47,8 @@ function home() {
             
         }}
         >
-          <Box>
-            <p className='text-4xl'>متجر الكتروني لبيع الاحذية الفاخرة في عمان وجميع محافظات الممكلة الهاشمية</p>
-          </Box>
-          <Box  sx={{ width: '100%', height: 'auto' , maxWidth:"80%", minWidth:"60%" }}>
-            <img src={Image} alt="" />
-          </Box>
+          <Slider_image/>
         </Box>
-      
         {/* الصف الثاني */}
         <Box id='box-features-home' className='col-span-3 w-full flex flex-row justify-around items-center'>
           <Box>

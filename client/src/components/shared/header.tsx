@@ -8,6 +8,7 @@ import ImageIcon from "../../assets/img/logo.png"
 export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
   const [isVisibleCart, setIsVisibleCart] = useState(false);
+  console.log(isVisibleCart);
   const toggleMenu = () => {
     setIsVisible(!isVisible);
   };
@@ -15,8 +16,7 @@ export default function Header() {
   const Status_Login = useSelector((state: any) => state.account.Status);
   console.log(Status_Login);
   const StatusIconHeader = useSelector((state: any) => state.cart.StatusIconHeader);
-  const filter = useSelector((state: any) => state.filter.mark);
-
+  console.log(StatusIconHeader);
   return (
     <>
       <FontAwesomeIcon onClick={()=>{toggleMenu()}} className={`hidden-menu absolute top-0 z-10 mx-10 my-10 hover:text-red-500 transition-all `} size='2xl' icon={faBars} />
