@@ -10,8 +10,6 @@ import PageRegister from './page/PageRegister'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 // حماية مسار تسجيل الدخول وانشاء الحساب من دخول عليها بعد تسجيل في الموقع
 import ProtectedRouter from "./components/Admin/ProtectedLoginRegister"
-// صفحة تسجيل الدخول الخاصة للأدمن
-import LoginAdmin from './components/Admin/components/loginAdmin';
 // كود وظيفته حماية صفحة ادارة الموقع من المخترقين
 import ProtectedLoginAdmin from "./components/Admin/ProtectedLoginAdmin"
 // صفحة عدم العثور على الصفحة  404 
