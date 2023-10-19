@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBoltLightning, faHandshakeAngle, faStore } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faBoltLightning, faHandshakeAngle, faStore } from '@fortawesome/free-solid-svg-icons';
 import { Box } from '@mui/material'; // أضفت Box هنا
 import Image2 from '../../../assets/img/HomeStore/background.png'
 import Image3 from '../../../assets/img/HomeStore/background2.png'
