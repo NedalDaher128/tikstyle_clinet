@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'; 
+import { useState, useEffect } from 'react';
+import { Box } from '@mui/material'; // أضفت Box هنا
 //  useCallback,
 import AxiosDataBase from '../../../../Axios/AxiosDataBase';
 // import { useSelector, useDispatch } from 'react-redux';
@@ -64,17 +65,37 @@ function show_products() {
 
   }, [])
   return (
-    <div className=' col-span-3  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 justify-items-center content-center'>
+    <Box
+      sx={{
+        display: { xs: 'grid', md: 'grid' },
+        gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' },
+      }}
+      className=' col-span-3  grid grid-cols-3 gap-10 justify-items-center content-center'>
       {
         shoes.map((shoe: any) => (
-          <div key={shoe._id} className='w-60 h-96 flex flex-col justify-center items-center'>
-            <div className='iamge'>
-              <img src={`https://api.tikstyle-shop.com${shoe.mainImage}`} alt="" />
+          <Box key={shoe._id}
+            sx={
+              {
+                width: { xs: '90%', md: '100%' },
+              }
+            }
+
+            className=' w-64 h-[400px] flex flex-col justify-start items-center  rounded-s-md bg-white  shadow-xl '>
+            <div className='iamge flex items-center justify-center  w-full   '>
+              <img
+                className=" w-full h-[250px]  rounded-t-md  shadow-md transform scale-100 transition-transform hover:scale-110"
+                src={`${shoe.mainImage}`}
+                alt="" />
+
             </div>
-          </div>
+            <div className='flex flex-col justify-center items-center  h-1/2'>
+              <p className='text-2xl text-center'>{shoe.name}</p>
+              <p className='text-4xl text-center'>${shoe.price}</p>
+            </div>
+          </Box>
         ))
       }
-    </div>
+    </Box>
   )
 }
 

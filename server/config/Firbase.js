@@ -1,46 +1,53 @@
-const admin = require("firebase-admin");
-const { Storage } = require('@google-cloud/storage');
-const multer = require('multer');
+// Import the functions you need from the SDKs you need
+const { initializeApp } = require("firebase/app");
+const { getAnalytics } = require("firebase/analytics");
+const { getStorage, ref,getDownloadURL,uploadBytes ,uploadBytesResumable } = require("firebase/storage");
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-const serviceAccount = require("./AccountKey.json");
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyB1wSdtp1TCGZGQpo7MtnU925sbOLN1ftY",
+  authDomain: "tikstylestore.firebaseapp.com",
+  projectId: "tikstylestore",
+  storageBucket: "tikstylestore.appspot.com",
+  messagingSenderId: "133017793516",
+  appId: "1:133017793516:web:1797158599fdaeb0fc86c9",
+  measurementId: "G-92N9DM5GC4"
+};
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  storageBucket: "gs://tikstylestore.appspot.com"
-});
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
 
-const storage = new Storage();
-const upload = multer({
-  storage: multer.memoryStorage(),
-});
-
-// دالة لرفع الصور
-const uploadImage = async (file, destinationPath) => {
+const uploadImage = async (file) => {
   try {
-    const bucket = storage.bucket("tikstylestore.appspot.com");
-    const fileUpload = bucket.file(destinationPath);
-    const blobStream = fileUpload.createWriteStream({
-      metadata: {
-        contentType: file.mimetype,
-      },
-    });
+    const filename = file.originalname;
+    console.log(filename);
+    console.log(file);
+    if (!file.buffer || !file.originalname) {
+      console.error('Invalid file data.');
+      return null; // Return null in case of an error
+    }
 
-    blobStream.on("error", (error) => {
-      console.error("Error uploading file: ", error);
-    });
+    // Convert the buffer to a Uint8Array
+    const fileData = new Uint8Array(file.buffer);
 
-    blobStream.on("finish", () => {
-      console.log("File uploaded successfully.");
-    });
+    const storageRef = ref(storage, 'files/' + file.originalname);
+    const metadata = {
+      contentType: file.mimetype,
+    };
+    const uploadTask = uploadBytesResumable(storageRef, fileData, metadata);
 
-    blobStream.end(file.buffer);
+    const snapshot = await uploadTask; // Wait for the upload to complete
+    const downloadURL = await getDownloadURL(snapshot.ref);
+
+    return downloadURL; // Return the download URL
   } catch (error) {
-    console.error("Error uploading file: ", error);
+    console.error('There was an error uploading the file.', error);
+    return null; // Return null in case of an error
   }
 };
 
-module.exports = {
-  admin,
-  upload,
-  uploadImage,
-}
+module.exports = { uploadImage };

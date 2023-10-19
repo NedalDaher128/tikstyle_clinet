@@ -13,24 +13,13 @@ require("dotenv").config();
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+let linkimage ;
 // Access to the secured encryption code
 const encryption = process.env.TOKEN_SECRET;
 
 // Access to the secured encryption code
 const slugify = require('slugify');
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, '../public/images'));
-    },
-    filename: function (req, file, cb) {
-        const originalName = file.originalname;
-        const safeFileName = slugify(originalName, { lower: true });
-        cb(null, Date.now() + safeFileName);
-    }
-});
-
-const upload = multer({ storage: storage });
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -207,34 +196,51 @@ module.exports.refresh_token = async (req, res) => {
 }
 
 module.exports.add_product = async (req, res) => {
-    const file = req.files;
-    uploadImage(file, "images").then(async (data) => {
-            const { name, price, type, Category, quantity, images, Description } = req.body;
-            
-            console.log(JSON.parse(Description));
-            const filename = JSON.parse(Description).map((item) => {
-                return {
-                    filename: `/images/${item.name}`,
-                    color: item.color
-                    
-                }
-            });
-    
-    
-            console.log(req.files);
-            const newProduct = await new DBPRODUCT({
-                name,
-                quantity,
-                price,
-                Category,
-                type,
-                images: filename,
-                mainImage: `/images/${req.files[0].filename}`
-            });
-            await newProduct.save();
-            res.status(201).json({ message: "New Product" });
-        })
+    try {
+        const files = req.files; // The array of files
+        const filenames = []; // To store the uploaded image URLs
+
+        console.log(req.files.length);
+        for (const file of files) { // Use a different variable name for the current file
+            // Upload the current file using uploadImage
+            const response = await uploadImage(file);
+            console.log(response);
+
+            if (response) {
+                filenames.push(response); // Store the image URL
+            }
+        }
+
+        const { name, price, type, Category, quantity, images, Description } = req.body;
+
+        const filename = JSON.parse(Description).map((item, index) => {
+            return {
+                linkimage: `${filenames[index]}`,
+                color: item.color
+            }
+        });
+
+        console.log(req.files);
+        const newProduct = await new DBPRODUCT({
+            name,
+            quantity,
+            price,
+            Category,
+            type,
+            images: filename,
+            mainImage: `${filenames[0]}` // Use 'files' for the first file
+        });
+
+        await newProduct.save();
+        res.status(201).json({ message: "New Product" });
+    } catch (error) {
+        console.error(error);
+        // Handle the error appropriately, e.g., send an error response
+        res.status(500).json({ error: "Internal server error" });
+    }
 };
+
+
 
 module.exports.get_product = async (req, res) => {
     try {

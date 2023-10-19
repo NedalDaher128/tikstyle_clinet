@@ -242,9 +242,9 @@ export default function AddProducts() {
 
                             </div>
                             {showButton()}
-                            <button className='w-36 h-5 relative ' type='submit' style={buttonStyle} >
+                            <Button className='w-36 h-5 relative ' type='submit' style={buttonStyle} >
                                 اضافة المنتج
-                            </button>
+                            </Button>
 
                         </div>
                     </div>

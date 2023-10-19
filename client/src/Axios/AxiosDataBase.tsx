@@ -5,21 +5,22 @@ import axios from 'axios';
 // قاعدة ملعومات حسابات المستخدمين 
 const axiosLogin = axios.create({
     // رابط الارسال
-    baseURL: "https://api.tikstyle-shop.com/api",
+    baseURL: "http://localhost:3001/api",
     headers: {
         "Content-Type": 'application/json'
     }
 });
+//  baseURL: "https://api.tikstyle-shop.com/api",
 
 // قاعدة حسابات الادمن
 const axiosAdmin = axios.create({
     // رابط الارسال
-    baseURL: "https://api.tikstyle-shop.com/admin",
+    baseURL: "http://localhost:3001/admin",
     headers: {
         "Content-Type": 'application/json',
     }
 })
-
+//"https://api.tikstyle-shop.com/admin"
 // ردة فعل تحدث عند تنفيذ طلب
 axiosAdmin.interceptors.response.use(
     (response) => {

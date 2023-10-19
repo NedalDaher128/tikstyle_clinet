@@ -5,19 +5,10 @@ const fs = require('fs')
 const router = express.Router()
 const slugify = require('slugify');
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, '../public/images'));
-    },
-    filename: function (req, file, cb) {
-        const originalName = file.originalname;
-        const safeFileName = slugify(originalName, { lower: true });
-        cb(null, safeFileName);
-    }
-});
+const storage = multer.memoryStorage();
 
 
-const upload = multer({ storage: multer.memoryStorage() });
+const upload = multer({ storage: storage });
 
 
 
