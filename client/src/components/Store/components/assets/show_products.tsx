@@ -1,12 +1,13 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react'; 
+//  useCallback,
 import AxiosDataBase from '../../../../Axios/AxiosDataBase';
-import { useSelector, useDispatch } from 'react-redux';
-import { additem } from '../../../../redux/Silce/CartSilce';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { additem } from '../../../../redux/Silce/CartSilce';
 
 function show_products() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [shoes, setshoes] = useState<any[]>([])
-  const cart = useSelector((state: any) => state.cart.items);
+  // const cart = useSelector((state: any) => state.cart.items);
   const get_shoes = async () => {
     try {
       const response = await AxiosDataBase.axiosLogin.get("/get_prodeuct", {
@@ -23,37 +24,38 @@ function show_products() {
       console.log(error)
     }
   }
-  const addcartChange = useCallback((shoe: any) => {
-    try {
-      const modifiedProduct = { ...shoe, count: 1 };
-      const existingProduct = JSON.parse(sessionStorage.getItem("cart") || "[]");
-      if (existingProduct.length === 0) {
-        sessionStorage.setItem("cart", JSON.stringify([modifiedProduct]));
-        dispatch(additem(modifiedProduct));
-        console.log(cart);
+  // const addcartChange = useCallback((shoe: any) => {
+  //   try {
+  //     const modifiedProduct = { ...shoe, count: 1 };
+  //     const existingProduct = JSON.parse(sessionStorage.getItem("cart") || "[]");
+  //     if (existingProduct.length === 0) {
+  //       sessionStorage.setItem("cart", JSON.stringify([modifiedProduct]));
+  //       dispatch(additem(modifiedProduct));
+  //       console.log(cart);
 
-      } else if (existingProduct.length > 0) {
-        const finditems = existingProduct.find((item: any) => item._id === shoe._id);
-        if (!finditems) {
-          existingProduct.push(modifiedProduct);
-          sessionStorage.setItem("cart", JSON.stringify(existingProduct));
-          dispatch(additem(modifiedProduct));
-          console.log(cart);
+  //     } else if (existingProduct.length > 0) {
+  //       const finditems = existingProduct.find((item: any) => item._id === shoe._id);
+  //       if (!finditems) {
+  //         existingProduct.push(modifiedProduct);
+  //         sessionStorage.setItem("cart", JSON.stringify(existingProduct));
+  //         dispatch(additem(modifiedProduct));
+  //         console.log(cart);
 
 
-        } else {
-          finditems.count++;
-          sessionStorage.setItem("cart", JSON.stringify(existingProduct));
-          dispatch(additem(modifiedProduct));
-          console.log(cart);
+  //       } else {
+  //         finditems.count++;
+  //         sessionStorage.setItem("cart", JSON.stringify(existingProduct));
+  //         dispatch(additem(modifiedProduct));
+  //         console.log(cart);
 
-        }
-      }
+  //       }
+  //     }
 
-    } catch (error) {
-      console.error(error)
-    }
-  }, [dispatch, additem, cart]);
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  // }, [dispatch, additem, cart]);
+
   console.log(shoes)
 
   useEffect(() => {
