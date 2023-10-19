@@ -76,7 +76,7 @@ function show_products() {
           <Box key={shoe._id}
             sx={
               {
-                width: { xs: '90%', md: '100%' },
+                width: { xs: '90%' },
               }
             }
 
