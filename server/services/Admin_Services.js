@@ -8,6 +8,7 @@ const bcrypt = require("bcrypt");
 const nodemailer = require('nodemailer');
 const jwt = require("jsonwebtoken")
 const randomstring = require("randomstring");
+const {uploadImage} = require("../config/Firbase");
 require("dotenv").config();
 const multer = require('multer');
 const path = require('path');
@@ -206,35 +207,33 @@ module.exports.refresh_token = async (req, res) => {
 }
 
 module.exports.add_product = async (req, res) => {
-    try {
-        const { name, price, type, Category, quantity, images, Description } = req.body;
-        
-        console.log(JSON.parse(Description));
-        const filename = JSON.parse(Description).map((item) => {
-            return {
-                filename: `/images/${item.name}`,
-                color: item.color
-                
-            }
-        });
-
-
-        console.log(req.files);
-        const newProduct = await new DBPRODUCT({
-            name,
-            quantity,
-            price,
-            Category,
-            type,
-            images: filename,
-            mainImage: `/images/${req.files[0].filename}`
-        });
-        await newProduct.save();
-        res.status(201).json({ message: "New Product" });
-    } catch (error) {
-        console.log(error);
-        res.status(400).json({ message: "There is an error accessing the admin page. Please contact the developer as soon as possible" });
-    }
+    const file = req.files;
+    uploadImage(file, "images").then(async (data) => {
+            const { name, price, type, Category, quantity, images, Description } = req.body;
+            
+            console.log(JSON.parse(Description));
+            const filename = JSON.parse(Description).map((item) => {
+                return {
+                    filename: `/images/${item.name}`,
+                    color: item.color
+                    
+                }
+            });
+    
+    
+            console.log(req.files);
+            const newProduct = await new DBPRODUCT({
+                name,
+                quantity,
+                price,
+                Category,
+                type,
+                images: filename,
+                mainImage: `/images/${req.files[0].filename}`
+            });
+            await newProduct.save();
+            res.status(201).json({ message: "New Product" });
+        })
 };
 
 module.exports.get_product = async (req, res) => {

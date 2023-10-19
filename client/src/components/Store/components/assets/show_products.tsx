@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import AxiosDataBase from '../../../../Axios/AxiosDataBase';
 import { useSelector, useDispatch } from 'react-redux';
-import { additem  } from '../../../../redux/Silce/CartSilce';
+import { additem } from '../../../../redux/Silce/CartSilce';
 
 function show_products() {
   const dispatch = useDispatch();
@@ -54,7 +54,7 @@ function show_products() {
       console.error(error)
     }
   }, [dispatch, additem, cart]);
-
+  console.log(shoes)
 
   useEffect(() => {
     get_shoes()
@@ -62,23 +62,16 @@ function show_products() {
 
   }, [])
   return (
-
-
-    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 justify-items-center content-center'>
-      {shoes.map((shoe) => (
-        <div key={shoe.mainImage} className='effect_car flex flex-col items-center justify-center rounded-lg border-2  h-[400px] w-[250px] transition-all    '>
-        <div className='flex flex-col items-center justify-center space-y-3'>
-          <img className='rounded-lg max-w-fit' src={`https://tikstyle-api.vercel.app${shoe.mainImage}`} alt="" />
-          <div className='flex flex-col justify-between w-full'>
-            <p className='text-2xl'>{shoe.name}</p>
+    <div className=' col-span-3  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 justify-items-center content-center'>
+      {
+        shoes.map((shoe: any) => (
+          <div key={shoe._id} className='w-60 h-96 flex flex-col justify-center items-center'>
+            <div className='iamge'>
+              <img src={`https://api.tikstyle-shop.com${shoe.mainImage}`} alt="" />
+            </div>
           </div>
-          <div className='flex flex-col justify-end items-center   w-full'>
-            <p className='text-2xl'>سعر المنتج {shoe.price} JD</p>
-            <button onClick={() => addcartChange(shoe)}>اضافة المنتج الى العربة</button>  
-          </div>
-        </div>
-      </div>
-      ))}
+        ))
+      }
     </div>
   )
 }

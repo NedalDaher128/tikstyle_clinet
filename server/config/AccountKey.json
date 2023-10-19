@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "tikstylestore",
+  "private_key_id": "a0460b43387d3e06b709bf18e52a5affa78b7f12",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCLBIBrfiNx9TbZ\nam8iw5EKSVv9hFUQrW5Jx7bwGvXn6NcAmiRof3WuNxIf1WT/4iiuPOOMr+VQQsfs\n+r4+Qz1yyoswPnh7DI1JG/JINkzjDStlSJM6pWfrt7NNUeOxomFEZz6mBTMlHipe\nTTyIu9OhXZOJ3cMPYTmMVsJFTfvUc/zko0u4X4biPAx35tPqt+6eZZDj/aC3QlPj\nfULF4oCXVeFbMkBMn6dUlhE0r55sScY6AGAVSlMwAwI40wPPwrAFIjKYZ/E12K0L\nG8d1OcI7YvwyOWmvOTJFg13GeLzOGlCJftTbFOOUqaCVXDcoBI7H9U1PI5bb22L5\nrywe8s3lAgMBAAECggEAITPDiijXxV1oKrgxb++eggLwXhXPjUqmtydkaWc/CRMC\n2sl13aFnlWLgyMqaM0UsKyUuwci275rrjg17B3rev75hTPX2p4jha68piBaz+VyJ\nW0jgpRahQdqfj915kND0AzbXbyZ5xykzvE8dIJkfnAAx/zEAZ/l0GbEU+CF+foiV\nJR443LRPYR7CNyzvTwcaF7kPkimXAHsibWotbuO8cQBnca0ixhgMIrYq5fAMoE7r\n1lztke9/wZuMy9HL5zTZ9rGBaYcfyrbOz1sxicBYHbn3BrJL6SYNbcw0nzZB5u29\n6fy0czA6SnLjFRMx4TgTm1mwcb052T4g4j+3gOYRIQKBgQC+sqgx4oSY1G03ZsYC\nvNZwEaoTtJAoJ0Qaa5x5RcLv2hyOk22GefOygKmvRNea6eawBGa+6/xQnA4qjht/\nFSsenziCC6ujHc0quf0VTEEmfHIBdOyTA/FhDbza4G3cfHZqsCSFXKFDbI/YUM9p\nXegpfD1+p0JVKIUd4loo8tgT1QKBgQC6n1eZIRQEMzXGUuHChHNQwgxBIikxg6ac\ncOi2tQ3fLtzLbFucmcAT4+wHdUdXtVMY3uFjnnCMlN4HS54ya9RRDlKwOvNiWj22\nA1WeVIsYlYU6J3b527NkdUkCyiBIihqwN28oAYtCXWISY+X/bdG0SuuAUtrDHq9Q\nVEUcaiep0QKBgQC8K1ZEQxxMIfDTJhplQSjn1MZaQ2Wr+XL+DwmLsQa13icnmNoO\nQ+/wR30ocWm+ducm8HDiG8IRWKux2h/Puned88ayrAllH1b/vh65EVGIRGvKfDGk\nr9NSzVd5MtO1KStAAydGYSzPdyRJcxP3CK65oNqdSzXtCdqwrlYA6f/FMQKBgHhr\n84mDF7hyFwQHXVg4QXTeEixBT9V8fxk5nmCvSek3AxBctmzBpXjwPNC/M677+Uf2\nIfg3N6bvNKn+eHFOtS0skdzX3U8cre9yDWBia3MMoHBbIOGvi/2J1Pfw144XV4tX\n6eklveev/GWjgrkk8wlkwrwGOtVnSncKOaJROZDRAoGBAKafRf4jE8WKBcMXWAZb\nxeWbcUgcGzon1m3/gjRuloVy9Av0itOtxmrfZnsd/Hz4PSfLeSDRKR0fnHexQQ5L\nO9mUwiA+movok9vEyxyUL+zMluaI6PcrfTEAw+aszGNNmBq15GUro4orz+gk/CjT\nOKXKsjh+4HHCiUXB2qw4MCyN\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-7ukjy@tikstylestore.iam.gserviceaccount.com",
+  "client_id": "102108944130035500956",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-7ukjy%40tikstylestore.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
