@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Box } from '@mui/material'; // أضفت Box هنا
 //  useCallback,
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import AxiosDataBase from '../../../../Axios/AxiosDataBase';
 // import { useSelector, useDispatch } from 'react-redux';
 // import { additem } from '../../../../redux/Silce/CartSilce';
-
 function show_products() {
   // const dispatch = useDispatch();
   const [shoes, setshoes] = useState<any[]>([])
@@ -70,32 +71,35 @@ function show_products() {
         display: { xs: 'grid', md: 'grid' },
         gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' },
       }}
-      className=' col-span-3  grid grid-cols-3 gap-10 justify-items-center content-center'>
+      className=' col-span-3  grid  grid-cols-3 gap-10 justify-items-center content-center'>
       {
         shoes.map((shoe: any) => (
           <Box key={shoe._id}
-            sx={
-              {
-                width: { xs: '90%' },
-              }
-            }
-
-            className=' w-64 h-[400px] flex flex-col justify-start items-center  rounded-s-md bg-white  shadow-xl '>
-            <div className='iamge flex items-center justify-center  w-full   '>
+            sx={{
+              width: { xs: '95%', md: '80%' },
+            }}
+            className='w-64 h-[360px] grid grid-cols-2 grid-rows-2 rounded-md bg-white shadow-xl '>
+            <div className='iamge col-span-2 row-span-3 flex items-center justify-center w-full'>
               <img
-                className=" w-full h-[250px]  rounded-t-md  shadow-md transform scale-100 transition-transform hover:scale-110"
+                className="w-full h-[250px] rounded-t-md shadow-md transform scale-100 transition-transform hover:scale-110"
                 src={`${shoe.mainImage}`}
-                alt="" />
-
+                alt=""
+              />
             </div>
-            <div className='flex flex-col justify-center items-center  h-1/2'>
+            <div className=' relative top-10 col-span-2 flex flex-col justify-center items-end ml-5 h-1/2'>
               <p className='text-2xl text-center'>{shoe.name}</p>
               <p className='text-4xl text-center'>${shoe.price}</p>
             </div>
+            <div className=' relative bottom-10 right-5 col-span-3 bg-red-600 w-10 h-8 flex justify-center items-center rounded-lg  cursor-pointer'>
+              <FontAwesomeIcon icon={faPlus} style={{ color: "white" }} />
+            </div>
           </Box>
+
+
+
         ))
       }
-    </Box>
+    </Box >
   )
 }
 

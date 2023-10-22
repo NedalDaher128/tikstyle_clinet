@@ -1,11 +1,13 @@
 
 import Header from '../../shared/header'
 import Home from '../components/home'
+import Footer from '../../shared/footer'
 function PageHomeStore() {
     return (
-        <div className=' h-[400vh]'>
+        <div >
             <Header />
             <Home />
+            <Footer/>
         </div>
     )
 }

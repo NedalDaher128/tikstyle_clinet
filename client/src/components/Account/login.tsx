@@ -3,7 +3,7 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import {  useDispatch } from 'react-redux';
 import AxiosDataBase from "../../Axios/AxiosDataBase";
 import { login } from "../../redux/Silce/AccountSilce";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // مكتبات المسؤولة عن التصميم
 import { ToastContainer } from 'react-toastify'; // مكتبة لعرض رسائل سريعة
@@ -23,6 +23,7 @@ export default function Login() {
     // استخدام الهوائيات لإدارة الحالة
     const [valueform, setvalueform] = useState<FormValues>({ username: '', password: '' });
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     // تابع للتعامل مع تغييرات الحقول
     const handleChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
@@ -50,6 +51,7 @@ export default function Login() {
             if (respone.status === 201) {
                 dispatch(login(respone));
                 show_message();
+                navigate("/")
             }
             // إعادة توجيه المستخدم بعد الانتهاء من الإرسال
         } catch (error) {

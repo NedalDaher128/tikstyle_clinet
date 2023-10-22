@@ -1,6 +1,6 @@
 //  المكتبات الأساسية
 import React, { ChangeEvent } from 'react'
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 import { login } from "../../redux/Silce/AccountSilce"
 import AxiosDataBase from "../../Axios/AxiosDataBase"
@@ -28,6 +28,7 @@ export default function Login(): JSX.Element {
   // متغير المسؤول عن معلومات انشاء الحساب
   const [valueform, setvalueform] = React.useState<FormValue>({ username: "", name: "", email: "", password: "" });
   const dispatch = useDispatch()
+  const nagtive = useNavigate()
 
   // ارسال طلي انشاء الحساب
   const AxiosRegister = async (e: any) => {
@@ -38,6 +39,7 @@ export default function Login(): JSX.Element {
       if (response.status === 201) {
         dispatch(login(response))
         show_message()
+        nagtive("/")
       }
 
     } catch (error) {
