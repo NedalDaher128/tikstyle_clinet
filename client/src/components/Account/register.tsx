@@ -1,5 +1,5 @@
 //  المكتبات الأساسية
-import React, { ChangeEvent } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import { Link,useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 import { login } from "../../redux/Silce/AccountSilce"
@@ -27,6 +27,7 @@ type FromValueskey = keyof FormValue
 export default function Login(): JSX.Element {
   // متغير المسؤول عن معلومات انشاء الحساب
   const [valueform, setvalueform] = React.useState<FormValue>({ username: "", name: "", email: "", password: "" });
+  let [message_error , set_message_error] = useState<FormValue>({ username: "", name: "", email: "", password: "" })
   const dispatch = useDispatch()
   const nagtive = useNavigate()
 
@@ -42,9 +43,9 @@ export default function Login(): JSX.Element {
         nagtive("/")
       }
 
-    } catch (error) {
+    } catch (error:any) {
       // هنا يمكنك التعامل مع أي خطأ قد يحدث أثناء الطلب إلى الخادم (مثل عرض رسالة خطأ للمستخدم)
-      console.error(error);
+      set_message_error(error.response.data.handleErrorsm)
     }
   };
 
@@ -101,6 +102,7 @@ export default function Login(): JSX.Element {
         <div className='flex flex-col gap-10'>
           {/* حلقة تكرارية لأنشاء حقول الادخال */}
           {inputFeiild.map((item) => (
+            <div>
             <TextField dir='rtl'
               key={item.type}
               inputProps={{ style: { width: '340px', borderColor: "red" } }}
@@ -112,6 +114,8 @@ export default function Login(): JSX.Element {
               onChange={handleInputData}
               variant="standard"
             />
+            <p className='text-red-500' >{message_error[item.type as keyof FormValue]}</p>
+            </div>
           ))}
           {/* زر لارسال الطلب لانشاء الحساب */}
           <Button type='submit' style={buttonStyle} variant="contained">انشاء حساب</Button>

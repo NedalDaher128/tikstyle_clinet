@@ -4,6 +4,8 @@ import { faHeart, faCartShopping, faUser, faBars } from '@fortawesome/free-solid
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ImageIcon from "../../assets/img/logo.png"
+import Avatar from '@mui/material/Avatar';
+
 // ...
 export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
@@ -20,11 +22,11 @@ export default function Header() {
   return (
     <>
       <FontAwesomeIcon onClick={()=>{toggleMenu()}} className={`hidden-menu absolute top-0 z-10 mx-10 my-10 hover:text-red-500 transition-all `} size='2xl' icon={faBars} />
-      <div className={`${isVisible ? "flex" :"hidden"} header  top-0 left-0 right-0 z-50 bg-white  flex items-center justify-around shadow-md`}>
-        <img src={ImageIcon} alt="" />
+      <div className={`${isVisible ? "flex" :"hidden"} header p-5 top-0 left-0 right-0 z-50 bg-white  flex items-center justify-around shadow-md`}>
+          <Avatar src={ImageIcon}/>
         <nav className="icons text-2xl flex flex-row  ">
           <span><Link to="/" className="text-1.5rem text-black mx-10 transition-all ">الصفحة الرئيسية</Link></span>
-          <span><Link to="/Product" className="text-1.5rem text-black mx-10 transition-all">صفحة المنتجات</Link></span>
+          <span><Link to="/Products" className="text-1.5rem text-black mx-10 transition-all">صفحة المنتجات</Link></span>
           <span><Link to="/support" className="text-1.5rem text-black mx-10 transition-all">دعم الفني</Link></span>
         </nav>
         <div className="icons">

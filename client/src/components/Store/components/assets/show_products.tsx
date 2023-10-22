@@ -76,16 +76,20 @@ function show_products() {
         shoes.map((shoe: any) => (
           <Box key={shoe._id}
             sx={{
-              width: { xs: '95%', md: '80%' },
+              width: { xs: '100%', md: '70%', xl:"40%" },
             }}
             className='w-64 h-[360px] grid grid-cols-2 grid-rows-2 rounded-md bg-white shadow-xl '>
-            <div className='iamge col-span-2 row-span-3 flex items-center justify-center w-full'>
+            <Box
+            sx={{
+              height: {xs:"80%"}
+            }}
+            className='iamge col-span-2 row-span-3 flex items-center justify-center w-full'>
               <img
                 className="w-full h-[250px] rounded-t-md shadow-md transform scale-100 transition-transform hover:scale-110"
                 src={`${shoe.mainImage}`}
                 alt=""
               />
-            </div>
+            </Box>
             <div className=' relative top-10 col-span-2 flex flex-col justify-center items-end ml-5 h-1/2'>
               <p className='text-2xl text-center'>{shoe.name}</p>
               <p className='text-4xl text-center'>${shoe.price}</p>

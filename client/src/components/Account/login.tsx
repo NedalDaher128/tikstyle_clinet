@@ -14,14 +14,18 @@ import Animation_Login from "../Admin/Animation/Animation_Login"; // الصور�
 
 // تعريف أنواع البيانات المستخدمة في النموذج
 type FormValuesKeys = keyof FormValues;
+// تعريف أنواع البيانات المستخدمة في النموذج
 interface FormValues {
     username: string;
     password: string;
 }
 
+
 export default function Login() {
     // استخدام الهوائيات لإدارة الحالة
     const [valueform, setvalueform] = useState<FormValues>({ username: '', password: '' });
+    let [errorMessages, setErrorMessages] = useState<FormValues>({ username: '', password: '' });
+    
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -47,22 +51,32 @@ export default function Login() {
     const AxiosLogin = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // منع إعادة تحميل الصفحة الافتراضية للنموذج
         try {
-           const respone = await AxiosDataBase.axiosLogin.post('/login', valueform)
-            if (respone.status === 201) {
-                dispatch(login(respone));
+            const response = await AxiosDataBase.axiosLogin.post('/login', valueform);
+    
+            if (response.status === 201) {
+                dispatch(login(response));
                 show_message();
-                navigate("/")
+                navigate("/");
+            } else if (response.status === 409) {
+                // قم بما تحتاج إلى فعله عندما تكون الحالة 409
+                // على سبيل المثال:
+                console.log("Conflict detected. Handle it here.");
             }
             // إعادة توجيه المستخدم بعد الانتهاء من الإرسال
-        } catch (error) {
-            console.error(error);
+        } catch (error:any) {
+            setErrorMessages(error.response.data.messageerror)
+            // يمكنك أيضًا التعامل مع الأخطاء هنا
         }
     };
+    
 
     
     // تعريف نوع الحقل لكل حقل إدخال
-    const typeInput: { type: string,label:string }[] = [{ type: 'username',label:"اسم المستخدم" }, { type: 'password',label:"كلمة المرور" }];
-
+    const typeInput: { type: keyof FormValues, label: string }[] = [
+        { type: 'username', label: "اسم المستخدم" },
+        { type: 'password', label: "كلمة المرور" }
+    ];
+    
     return (
         <div id='content_login' className='flex flex-row justify-around'>
             <ToastContainer
@@ -82,7 +96,8 @@ export default function Login() {
                 <h1 className='text-4xl'>تسجيل الدخول إلى تطبيق الويب</h1>
                 <p className='text-xl'>قم بإدخال بياناتك أدناه</p>
                 <div className='flex flex-col gap-10'>
-                    {typeInput.map((items) => (
+                    {typeInput.map((items:any) => (
+                        <div>
                         <TextField
                             inputProps={{ style: { width: '340px', borderColor: 'red' } }}
                             id={items.type}
@@ -94,6 +109,10 @@ export default function Login() {
                             onChange={handleChangeValue}
                             variant='standard'
                         />
+                        <p className='text-red-600'>{errorMessages[items.type as keyof FormValues  ]}</p>
+                        </div>
+
+                    
                     ))}
                     <div className='boxButtenLogin flex flex-row justify-between items-center'>
                         <Button type='submit' className='w-40 ' style={buttonStyle} variant='contained'>

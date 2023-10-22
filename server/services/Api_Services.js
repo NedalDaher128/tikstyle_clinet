@@ -40,6 +40,25 @@ const handleErrors = (error) => {
 
     return errors;
 };
+const handleErrorsRegister = (error) => {
+    let errors = { email:"" , username: "", password: "",name:" "};
+    const arry_message = ["You must enter your email", "You must enter password","You must enter username","You must enter name"];
+    const type = ["email", "password","username","name"];
+    for(const i in arry_message){
+        if (error.message.includes(arry_message[i])) {
+            if (type[i] === "email") {
+                errors.email = "حقل البريد الاكتروني فارغ";
+            } else if (type[i] === "password") {
+                errors.password = "حقل كلمة السر فارغ";
+            }else if (type[i] === "username"){
+                errors.username = "حقل اسم المستخدم فارغ"
+            }else if (type[i] === "name"){
+                errors.name = "حقل اسم صاحب الحساب فارغ"
+            }
+        }
+    }
+    return errors;
+};
 // 
 const Token_generation = (id) => {
     return jwt.sign({ id }, encryption, {
@@ -71,7 +90,8 @@ module.exports.register = async (req, res) => {
         // Return the token code from response
         res.status(201).json({ message: "Login succeeded", token, NewAccount, Status: true });
     } catch (error) {
-        res.status(409).json({ error });
+        const handleErrorsm = handleErrorsRegister(error)
+        res.status(409).json({ handleErrorsm });
     }
 }
 
