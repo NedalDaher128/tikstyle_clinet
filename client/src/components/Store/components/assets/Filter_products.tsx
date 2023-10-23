@@ -165,7 +165,7 @@ function Filter_products() {
             className='iamge col-span-2 row-span-3 flex items-center justify-center w-full'>
               <img
                 className="w-full h-[250px] rounded-t-md shadow-md transform scale-100 transition-transform hover:scale-110"
-                src={`${shoe.mainImage}`}
+                src={`${shoe.mainImage.linkimage}`}
                 alt=""
               />
             </Box>

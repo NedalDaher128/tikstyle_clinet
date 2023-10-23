@@ -21,7 +21,7 @@ export default function DataTable() {
   const typeAction = "product"
   const state = useSelector((state: any) => state.filter.statuspopup);
   const img = JSON.parse(sessionStorage.getItem('datafile') as string)
-
+  console.log(rows  )
   // تعريف أعمدة الجدول
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'رقم تعريفي', width: 200 },
@@ -46,7 +46,6 @@ export default function DataTable() {
     { field: 'quantity', headerName: 'الكمية', type: 'number', editable: true, width: 90 },
     { field: 'actions', headerName: 'العمليات', width: 190, renderCell: params => <Actions {...{ params, stateiconimage, typeAction }} /> },
   ];
-
   // دالة لجلب البيانات من الخادم
   const fetchRows = async () => {
     try {
@@ -66,20 +65,19 @@ export default function DataTable() {
       console.error(err);
     }
   };
-
   // تنفيذ جلب البيانات عند تحميل الكومبوننت
   useEffect(() => {
     fetchRows();
   }, []);
-
   return (
     <div>
       {state && <Show_image trigger={state} image={img} />}
 
       {/* تكوين جدول البيانات */}
-      <div className=' dataGrid-responve  w-full'>
+      <div className=' w-full'>
         <DataGrid
-          sx={{ width: '100%' }}
+          className=' w-screen  '
+          sx={{ height:"100vh"}}
           rows={rows}
           columns={columns}
           autoPageSize

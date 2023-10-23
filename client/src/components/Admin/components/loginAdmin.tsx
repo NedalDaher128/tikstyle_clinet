@@ -47,13 +47,8 @@ export default function LoginAdmin() {
       const response = await AxiosDataBase.axiosAdmin.post('/login', DataSubmit);
       dispatch(loginAdmin(response.data.token));
       show_message();
-      console.log(response.data.token);
+      navigate('/admin/dashboard');
 
-      // توجيه المستخدم إلى "/admin/dashboard" بعد نجاح تسجيل الدخول
-      setTimeout(() => {
-        navigate('/admin/dashboard');
-
-      }, 4500);
     } catch (error) {
       show_message_error();
       console.error(error);

@@ -7,7 +7,6 @@ function Show_image(props: any) {
     const imagecopy =  image.map((item: any) => {
         return {
             name: item.name,
-            url: item.url,
             color: item.color
         };
     });

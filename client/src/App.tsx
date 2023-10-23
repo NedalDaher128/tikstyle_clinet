@@ -84,8 +84,8 @@ export default function App() {
               <Route path='/login' element={<PageLogin />} />
               <Route path='/register' element={<PageRegister />} />
             </Route>
+            <Route path='/' element={<Home />} />
             <Route element={<ProtectedStore />}>
-              <Route path='/' element={<Home />} />
               <Route path='/Products' element={<FilterProducts />} />
               <Route path='/order' element={<PageOrder />} />
             </Route>
