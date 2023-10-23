@@ -27,7 +27,7 @@ const Product = new mongoose.Schema({
         required: true,
     },
     mainImage: {
-        type: String,
+        type: Object,
         required: true,
     },
     }

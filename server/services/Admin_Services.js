@@ -8,7 +8,7 @@ const bcrypt = require("bcrypt");
 const nodemailer = require('nodemailer');
 const jwt = require("jsonwebtoken")
 const randomstring = require("randomstring");
-const {uploadImage} = require("../config/Firbase");
+const {uploadImage , deleteImage, updateImage} = require("../config/Firbase");
 require("dotenv").config();
 const multer = require('multer');
 const path = require('path');
@@ -199,8 +199,8 @@ module.exports.add_product = async (req, res) => {
     try {
         const files = req.files; // The array of files
         const filenames = []; // To store the uploaded image URLs
-
         console.log(req.files.length);
+        
         for (const file of files) { // Use a different variable name for the current file
             // Upload the current file using uploadImage
             const response = await uploadImage(file);
@@ -210,25 +210,23 @@ module.exports.add_product = async (req, res) => {
                 filenames.push(response); // Store the image URL
             }
         }
-
         const { name, price, type, Category, quantity, images, Description } = req.body;
-
         const filename = JSON.parse(Description).map((item, index) => {
             return {
                 linkimage: `${filenames[index]}`,
                 color: item.color
             }
         });
+        console.log(filenames)
 
-        console.log(req.files);
         const newProduct = await new DBPRODUCT({
             name,
             quantity,
             price,
             Category,
             type,
-            images: filename,
-            mainImage: `${filenames[0]}` // Use 'files' for the first file
+            images: filenames,
+            mainImage: filenames[0] // Use 'files' for the first file
         });
 
         await newProduct.save();
@@ -239,8 +237,6 @@ module.exports.add_product = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 };
-
-
 
 module.exports.get_product = async (req, res) => {
     try {
@@ -261,95 +257,82 @@ module.exports.get_product = async (req, res) => {
 
 module.exports.remove_product = async (req, res) => {
     try {
-        const { id } = req.params;
-        const productdata = await DBPRODUCT.findById({ _id: id });
-        const del = productdata.images.map((item) => {
-            fs.unlinkSync(path.join(__dirname, `../public${item.filename}`));
+      const { id } = req.params;
+      const productdata = await DBPRODUCT.findById({ _id: id });
+      console.log(productdata)
+      // Delete all images in the 'images' array
+      const deletedImages = await Promise.all(
+        productdata.images.map(async (item) => {
+          return await deleteImage(item.filename);
         })
-        if (del) {
-            const product = await DBPRODUCT.findByIdAndDelete(id);
-            res.status(200).json({ product });
-        }
+      );
+      // Check if all images were deleted successfully
+      if ( deletedImages.every((fileName) => fileName !== null)) {
+        const product = await DBPRODUCT.findByIdAndDelete(id);
+        res.status(200).json({ product });
+      } else {
+        res.status(400).json({ message: "Failed to delete some or all of the images." });
+      }
     } catch (error) {
-        console.log(error);
-        res.status(400).json({ message: "There is an error accessing the admin page. Please contact the developer as soon as possible" });
+      console.log(error);
+      res.status(400).json({ message: "There is an error accessing the admin page. Please contact the developer as soon as possible" });
     }
-}
+  }
 
 module.exports.update_product = async (req, res) => {
     try {
-        const { id, name, price, quantity, Category, type, images } = req.body;
-        const product = await DBPRODUCT.findById({ _id: id });
-        if (product) {
-            const update = await DBPRODUCT.findOneAndUpdate({ _id: id }, {
-                name,
-                price,
-                quantity,
-                Category,
-                type,
-                images
-            });
-            res.status(200).json({ update });
-        }
+      const { id, name, price, quantity, Category, type, images } = req.body;
+      const product = await DBPRODUCT.findById({ _id: id });
+      if (product) {
+        const updatedImagePromises = images.map((image) => {
+          const { file, color } = image;
+          return updateImage(file, color);
+        });
+        const updatedImageResults = await Promise.all(updatedImagePromises);
+        
+        const update = await DBPRODUCT.findOneAndUpdate({ _id: id }, {
+          name,
+          price,
+          quantity,
+          Category,
+          type,
+          images: updatedImageResults, // Update the images array with the updated URLs and colors
+        });
+  
+        res.status(200).json({ update });
+      }
     } catch (error) {
-        console.log(error);
-        res.status(400).json({ message: "There is an error accessing the admin page. Please contact the developer as soon as possible" });
+      console.log(error);
+      res.status(400).json({ message: "There is an error accessing the admin page. Please contact the developer as soon as possible" });
     }
 };
 
 module.exports.update_images = async (req, res) => {
     try {
-        const { destination } = req.body;
-        const Description = JSON.parse(destination);
-        console.log(Description);
-
-        const { id } = req.params;
-        const response = await DBPRODUCT.findById({ _id: id });
-        if (response) {
-            console.log(response);
-            const image = response.images.map((item) => {
-                fs.unlinkSync(path.join(__dirname, `../public/images/${item.filename}`));
-                console.log(item.filename);
-            })
-            const destinationset = Description.map((item) => {
-                return {
-                    filename: item.name,
-                    color: item.color
-                }
-            })
-            await DBPRODUCT.findOneAndUpdate({ _id: id }, {
-                images: destinationset
-            });
-        }
-        // const image = req.files;
-        // upload(req, res, async (err) => {
-        //     if (err instanceof multer.MulterError) {
-        //         console.log(err);
-        //         res.status(400).json({ message: "There is an error accessing the admin page. Please contact the developer as soon as possible" });
-        //     } else if (err) {
-        //         console.log(err);
-        //         res.status(400).json({ message: "There is an error accessing the admin page. Please contact the developer as soon as possible" });
-        //     } else {
-        //         const product = await DBPRODUCT.findById({_id:id});
-        //         if(product){
-        //             const filename = req.files.map((item) => {
-        //                 return {
-        //                     filename: item.filename,
-        //                     color : item.color
-        //                 }
-        //             });
-        //             const update = await DBPRODUCT.findOneAndUpdate({_id:id},{
-        //                 images:filename
-        //             });
-        //             res.status(200).json({ update });
-        //         }
-        //     }
-        // });
+      const { id } = req.params;
+      const { destination } = req.body;
+      const Description = JSON.parse(destination);
+      const updatedImagePromises = req.files.map((file, index) => {
+        const image = Description[index];
+        return updateImage(file, image.color);
+      });
+      const updatedImageResults = await Promise.all(updatedImagePromises);
+  
+      const product = await DBPRODUCT.findById({ _id: id });
+      if (product) {
+        const update = await DBPRODUCT.findOneAndUpdate({ _id: id }, {
+          images: updatedImageResults, // Update the images array with the updated URLs and colors
+          mainImage: updatedImageResults[0],
+        });
+  
+        res.status(200).json({ update });
+      }
     } catch (error) {
-        console.log(error);
-        res.status(400).json({ message: "There is an error accessing the admin page. Please contact the developer as soon as possible" });
+      console.log(error);
+      res.status(400).json({ message: "There is an error accessing the admin page. Please contact the developer as soon as possible" });
     }
-}
+  }
+  
 module.exports.get_users = async (req, res) => {
     try {
         const users = await DBUSER.find({});
