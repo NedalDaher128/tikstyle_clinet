@@ -115,16 +115,21 @@ module.exports.login = async (req, res) => {
 
 module.exports.get_product = async (req, res) => {
     try {
-        const type = req.query.type;
+        let {type,limit} = req.query;
+        console.log(limit)
+        if( limit === undefined){
+            limit = 10
+        }
         // Modified part: Use the DBPRODUCT pipeline to get 6 products with the same number of elements
         const result = await DBPRODUCT.aggregate([
             {
-                $sample: { size: 10 }
+              $sample: { size: 10 }
             },
             {
-                $match: { $sampleRate: 1 }
+              $match: { $sampleRate: 1 }
             }
-        ]);
+          ]).limit(parseInt(limit, 10)); // تحويل قيمة limit إلى عدد صحيح
+          
 
         if (type === "homestore") {
             result.forEach((item) => {

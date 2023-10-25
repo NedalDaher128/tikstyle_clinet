@@ -155,7 +155,7 @@ function Filter_products() {
         products.map((shoe: any) => (
           <Box key={shoe._id}
             sx={{
-              width: { xs: '70%', md: '70%', xl:"40%"},
+              width: { xs: '70%', md: '100%', xl:"40%"},
             }}
             className='w-64 h-[360px] grid m-10  rounded-md bg-white shadow-xl '>
             <Box

@@ -19,7 +19,6 @@ function show_products() {
           type: 'homestore'
         }
       })
-      console.log(response.data.result)
       setshoes(response.data.result)
 
     } catch (error) {
@@ -58,11 +57,9 @@ function show_products() {
   //   }
   // }, [dispatch, additem, cart]);
 
-  console.log(shoes)
 
   useEffect(() => {
     get_shoes()
-    console.log(shoes)
 
   }, [])
   return (
@@ -76,7 +73,7 @@ function show_products() {
         shoes.map((shoe: any) => (
           <Box key={shoe._id}
             sx={{
-              width: { xs: '100%', md: '70%', xl:"40%" },
+              width: { xs: '100%', md: '100%', xl:"40%" },
             }}
             className='w-64 h-[360px] grid grid-cols-2 grid-rows-2 rounded-md bg-white shadow-xl '>
             <Box
