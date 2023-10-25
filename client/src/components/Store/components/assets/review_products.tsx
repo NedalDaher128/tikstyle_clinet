@@ -1,20 +1,7 @@
 import AxiosDataBase from "../../../../Axios/AxiosDataBase"
 import { useState, useEffect } from "react"
 
-interface Product {
-    _id: string,
-    name: string,
-    price: string,
-    type: string,
-    Category: string,
-    quantity: number,
-    images: [],
-    mainImage: {
-        linkimage: string,
-        filename: string,
-        color: string
-    }
-}
+
 
 function review_products() {
     const [product, setproduct] = useState<any>([]);
