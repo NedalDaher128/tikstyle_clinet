@@ -10,6 +10,7 @@ import AxiosDataBase from '../../../../Axios/AxiosDataBase';
 import { Box } from '@mui/material'; // أضفت Box هنا
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
 function Filter_products() {
   const [data, setdata] = useState<any>({ type: '', Category: '' });
   const location = useLocation();
@@ -63,17 +64,17 @@ function Filter_products() {
         let response;
         if (data.type !== '' && data.Category !== '') {
           response = await AxiosDataBase.axiosLogin.get(
-            `/product?type=${data.type}&Category=${data.Category}`
+            `/product/filter?type=${data.type}&Category=${data.Category}`
           );
           console.log(1);
           setproducts(response.data.result);
         } else if (type !== null && Category === null) {
-          response = await AxiosDataBase.axiosLogin.get(`/product?type=${type}`);
+          response = await AxiosDataBase.axiosLogin.get(`/product/filter?type=${type}`);
           console.log(2);
           setproducts(response.data.result);
         } else {
           response = await AxiosDataBase.axiosLogin.get(
-            `/product?type=${'null'}&Category=${'null'}`
+            `/product/filter?type=${'null'}&Category=${'null'}`
           );
           console.log(3);
           setproducts(response.data.result);
@@ -155,16 +156,17 @@ function Filter_products() {
         products.map((shoe: any) => (
           <Box key={shoe._id}
             sx={{
-              width: { xs: '70%', md: '100%', xl:"40%"},
+              width: { xs: '70%', md: '80%', xl:"40%"},
             }}
-            className='w-64 h-[360px] grid m-10  rounded-md bg-white shadow-xl '>
+            className='w-64 h-[360px] grid m-5  rounded-md bg-white shadow-xl '>
             <Box
             sx={{
-              height: {xs: '70%', md: '70%', xl:"70%" }
+              height: {xs: '70%', md: '80%', xl:"70%" },
+              width:{xs: '100%', md: '100%', xl:"100%" }
             }}
             className='iamge col-span-2 row-span-3 flex items-center justify-center w-full'>
               <img
-                className="w-full h-[250px] rounded-t-md shadow-md transform scale-100 transition-transform hover:scale-110"
+                className=" h-[250px] rounded-t-md shadow-md transform scale-100 transition-transform hover:scale-110"
                 src={`${shoe.mainImage.linkimage}`}
                 alt=""
               />

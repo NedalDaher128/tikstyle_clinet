@@ -224,7 +224,16 @@ module.exports.add_order = async (req, res) => {
         return res.status(500).json({ error });
     }
 }
-
+module.exports.get_one_item = async(req,res)=>{
+    try {
+        const {id} = req.params 
+        const response = await DBPRODUCT.findById({_id:id}) 
+        res.status(201).json({response})
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({error})
+    }
+}
 
 
 

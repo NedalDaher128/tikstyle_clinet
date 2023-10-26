@@ -6,10 +6,7 @@ interface Account {
   AccountUsers: {
     token: string;
   };
-  StatusIconHeader: {
-    cart: number;
-    heart: number;
-  };
+
 }
 
 const initialState: Account = {
@@ -17,10 +14,7 @@ const initialState: Account = {
   AccountUsers: {
     token: ""
   },
-  StatusIconHeader: {
-    cart: 0,
-    heart: 0
-  },
+ 
 };
 
 const AccountSlice = createSlice({

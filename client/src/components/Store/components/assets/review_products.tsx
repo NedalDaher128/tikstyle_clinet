@@ -1,14 +1,12 @@
 import AxiosDataBase from "../../../../Axios/AxiosDataBase"
 import { useState, useEffect } from "react"
-
-
-
+import { Box } from "@mui/system";
 function review_products() {
     const [product, setproduct] = useState<any>([]);
     console.log(product);
     const get_product = async () => {
         try {
-            const response = await AxiosDataBase.axiosLogin.get("/get_prodeuct", {
+            const response = await AxiosDataBase.axiosLogin.get("/get_prodeuct/home", {
                 params: {
                     page: 1,
                     limit: 2,
@@ -39,9 +37,9 @@ function review_products() {
                             ))
                         }
                     </div>
-                    <div className="big-image">
+                    <Box  className="big-image">
                       <img src={item.mainImage.linkimage} alt="Product 1" className="big-image-1" />
-                    </div>
+                    </Box>
                   </div>
                   <div className="content">
                     <h3>{item.name}</h3>

@@ -41,7 +41,7 @@ import GlobalStyle from './assets/CSS/GlobalStyles';
 import Home from './components/Store/Page/PageHomeStore';
 import FilterProducts from './components/Store/Page/PageFilterProducts';
 import PageOrder from './components/Store/Page/PageOrder';
-
+import PageShowitem from "./components/Store/Page/Page_Show_products"
 
 import RTL from './RTL';
 document.dir = 'rtl';
@@ -88,6 +88,7 @@ export default function App() {
             <Route element={<ProtectedStore />}>
               <Route path='/Products' element={<FilterProducts />} />
               <Route path='/order' element={<PageOrder />} />
+              <Route path='/product/:id' element={<PageShowitem/>} />
             </Route>
             <Route path='/admin/:variable?' element={<ProtectedLoginAdmin />} />
             <Route element={<ProtectedDashBord />}>

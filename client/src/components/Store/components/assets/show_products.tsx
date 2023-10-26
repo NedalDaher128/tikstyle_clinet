@@ -1,18 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useCallback } from 'react';
 import { Box } from '@mui/material'; // أضفت Box هنا
-//  useCallback,
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import AxiosDataBase from '../../../../Axios/AxiosDataBase';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { additem } from '../../../../redux/Silce/CartSilce';
+import { useSelector, useDispatch } from 'react-redux';
+import { additem } from '../../../../redux/Silce/CartSilce';
+import { useNavigate } from 'react-router-dom';
 function show_products() {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const nagitve = useNavigate()
   const [shoes, setshoes] = useState<any[]>([])
-  // const cart = useSelector((state: any) => state.cart.items);
+  const cart = useSelector((state: any) => state.cart.items);
   const get_shoes = async () => {
     try {
-      const response = await AxiosDataBase.axiosLogin.get("/get_prodeuct", {
+      const response = await AxiosDataBase.axiosLogin.get("/get_prodeuct/home", {
         params: {
           page: 1,
           limit: 10,
@@ -25,39 +26,42 @@ function show_products() {
       console.log(error)
     }
   }
-  // const addcartChange = useCallback((shoe: any) => {
-  //   try {
-  //     const modifiedProduct = { ...shoe, count: 1 };
-  //     const existingProduct = JSON.parse(sessionStorage.getItem("cart") || "[]");
-  //     if (existingProduct.length === 0) {
-  //       sessionStorage.setItem("cart", JSON.stringify([modifiedProduct]));
-  //       dispatch(additem(modifiedProduct));
-  //       console.log(cart);
+  const addcartChange = useCallback((shoe: any) => {
+    try {
+      const modifiedProduct = { ...shoe, count: 1 };
+      const existingProduct = JSON.parse(sessionStorage.getItem("cart") || "[]");
+      if (existingProduct.length === 0) {
+        sessionStorage.setItem("cart", JSON.stringify([modifiedProduct]));
+        dispatch(additem(modifiedProduct));
+        console.log(cart);
 
-  //     } else if (existingProduct.length > 0) {
-  //       const finditems = existingProduct.find((item: any) => item._id === shoe._id);
-  //       if (!finditems) {
-  //         existingProduct.push(modifiedProduct);
-  //         sessionStorage.setItem("cart", JSON.stringify(existingProduct));
-  //         dispatch(additem(modifiedProduct));
-  //         console.log(cart);
-
-
-  //       } else {
-  //         finditems.count++;
-  //         sessionStorage.setItem("cart", JSON.stringify(existingProduct));
-  //         dispatch(additem(modifiedProduct));
-  //         console.log(cart);
-
-  //       }
-  //     }
-
-  //   } catch (error) {
-  //     console.error(error)
-  //   }
-  // }, [dispatch, additem, cart]);
+      } else if (existingProduct.length > 0) {
+        const finditems = existingProduct.find((item: any) => item._id === shoe._id);
+        if (!finditems) {
+          existingProduct.push(modifiedProduct);
+          sessionStorage.setItem("cart", JSON.stringify(existingProduct));
+          dispatch(additem(modifiedProduct));
+          console.log(cart);
 
 
+        } else {
+          finditems.count++;
+          sessionStorage.setItem("cart", JSON.stringify(existingProduct));
+          dispatch(additem(modifiedProduct));
+          console.log(cart);
+
+        }
+      }
+
+    } catch (error) {
+      console.error(error)
+    }
+  }, [dispatch, additem, cart]);
+  const movenextpage = (e: React.MouseEvent<HTMLElement>) => {
+    const customValue = e.currentTarget.getAttribute('id');
+    nagitve(`/product/${customValue}`)
+    // or e.currentTarget.id directly
+  }
   useEffect(() => {
     get_shoes()
 
@@ -82,6 +86,8 @@ function show_products() {
             }}
             className='iamge col-span-2 row-span-3 flex items-center justify-center w-full'>
               <img
+                onClick={movenextpage}
+                id={shoe._id}
                 className="w-full h-[250px] rounded-t-md shadow-md transform scale-100 transition-transform hover:scale-110"
                 src={`${shoe.mainImage.linkimage}`}
                 alt=""
@@ -91,13 +97,10 @@ function show_products() {
               <p className='text-2xl text-center'>{shoe.name}</p>
               <p className='text-4xl text-center'>${shoe.price}</p>
             </div>
-            <div className=' relative bottom-10 right-5 col-span-3 bg-red-600 w-10 h-8 flex justify-center items-center rounded-lg  cursor-pointer'>
+            <div onClick={addcartChange} className=' relative bottom-10 right-5 col-span-3 bg-red-600 w-10 h-8 flex justify-center items-center rounded-lg  cursor-pointer'>
               <FontAwesomeIcon icon={faPlus} style={{ color: "white" }} />
             </div>
           </Box>
-
-
-
         ))
       }
     </Box >
