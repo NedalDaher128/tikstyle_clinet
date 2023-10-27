@@ -5,7 +5,7 @@ import axios from 'axios';
 // قاعدة ملعومات حسابات المستخدمين 
 const axiosLogin = axios.create({
     // رابط الارسال
-    baseURL: "http://localhost:3001/api",
+    baseURL: "https://api.tikstyle-shop.com/api",
     headers: {
         "Content-Type": 'application/json'
     }
@@ -15,7 +15,7 @@ const axiosLogin = axios.create({
 // قاعدة حسابات الادمن
 const axiosAdmin = axios.create({
     // رابط الارسال
-    baseURL: "http://localhost:3001/admin",
+    baseURL: "https://api.tikstyle-shop.com/admin",
     headers: {
         "Content-Type": 'application/json',
     }
