@@ -1,6 +1,7 @@
 // ملف التصميم الذي يحتوي على معظم تصاميم الموقع
 import './assets/CSS/App.css'
 import "./assets/CSS/Admin.css"
+import { lazy, Suspense } from 'react';
 
 // استدعاء صفحة تسجيل الدخول
 import PageLogin from './page/PageLogin'
@@ -16,24 +17,18 @@ import ProtectedLoginAdmin from "./components/Admin/ProtectedLoginAdmin"
 import Page404 from './page/Page404';
 // كود وظيفته منع الدخول الى المتجر بعد تعذر تسجيل الدخول
 import ProtectedStore from "./components/Admin/ProtectedStore"
-// حماية صفحة ادارة الموقع من المخترقين
-import ProtectedDashBord from './components/Admin/components/ProtectedDashBord';
-// صفحة ادارة الموقع
-import HomePageAdmin from './components/Admin/page/HomePageAdmin';
 // مكتبة ارسال الطلبات
 import AxiosDataBase from './Axios/AxiosDataBase';
 // مكتبة تخزين البيانات في الكوكيز
 import  Cookie  from 'js-cookie';
 
 // صفحة اضافة المنتجات
-import PageAddProduct from  './components/Admin/page/PageAddProducts'
-
-import PageListProducts from './components/Admin/page/PageListProducts';
-
-import PageListUsers from './components/Admin/page/PageListUsers';
-
-import PageListCoupons from './components/Admin/page/PageListCoupons';
-
+const PageAddProduct = lazy(() => import('./components/Admin/page/PageAddProducts'));
+const PageListProducts = lazy(() => import('./components/Admin/page/PageListProducts'));
+const PageListUsers = lazy(() => import('./components/Admin/page/PageListUsers'));
+const PageListCoupons = lazy(() => import('./components/Admin/page/PageListCoupons'));
+const HomePageAdmin = lazy(()=> import('./components/Admin/page/HomePageAdmin'))
+const ProtectedDashBord = lazy(()=> import('./components/Admin/components/ProtectedDashBord'))
 // globalsytle
 import GlobalStyle from './assets/CSS/GlobalStyles';
 
@@ -73,35 +68,37 @@ export default function App() {
     }
   }, 1000 * 60 * 60 * 24);
 
-  return (
-    <RTL>
-      <div className=' w-screen h-screen '>
-        <BrowserRouter>
-          <GlobalStyle />
-          <Routes>
-            <Route path='*' element={<Page404 />} />
-            <Route element={<ProtectedRouter />}>
-              <Route path='/login' element={<PageLogin />} />
-              <Route path='/register' element={<PageRegister />} />
-            </Route>
-            <Route path='/' element={<Home />} />
-            <Route element={<ProtectedStore />}>
-              <Route path='/Products' element={<FilterProducts />} />
-              <Route path='/order' element={<PageOrder />} />
-              <Route path='/product/:id' element={<PageShowitem/>} />
-            </Route>
-            <Route path='/admin/:variable?' element={<ProtectedLoginAdmin />} />
-            <Route element={<ProtectedDashBord />}>
-              <Route path='/admin/dashboard' element={<HomePageAdmin />} />
-              <Route path='/admin/products/add' element={<PageAddProduct />} />
-              <Route path='/admin/products/list' element={<PageListProducts />} />
-              <Route path='/admin/customers' element={<PageListUsers />} />
-              <Route path='/admin/coupons' element={<PageListCoupons />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </div>
-    </RTL>
-  )
+    return (
+      <RTL>
+        <div className=' w-screen h-screen '>
+          <BrowserRouter>
+            <GlobalStyle />
+            <Routes>
+              <Route path='*' element={<Page404 />} />
+              <Route element={<ProtectedRouter />}>
+                <Route path='/login' element={<PageLogin />} />
+                <Route path='/register' element={<PageRegister />} />
+              </Route>
+              <Route path='/' element={<Home />} />
+              <Route element={<ProtectedStore />}>
+                <Route path='/Products' element={<FilterProducts />} />
+                <Route path='/order' element={<PageOrder />} />
+                <Route path='/product/:id' element={<PageShowitem/>} />
+              </Route>
+              <Route path='/admin/:variable?' element={<ProtectedLoginAdmin />} />
+              <Route element={<Suspense fallback={<h1>جاري تحميل الصفحة</h1>}>
+                <ProtectedDashBord />
+              </Suspense>}>
+                <Route path='/admin/dashboard' element={<HomePageAdmin />} />
+                <Route path='/admin/products/add' element={<PageAddProduct />} />
+                <Route path='/admin/products/list' element={<PageListProducts />} />
+                <Route path='/admin/customers' element={<PageListUsers />} />
+                <Route path='/admin/coupons' element={<PageListCoupons />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </div>
+      </RTL>
+    )
 }
 
