@@ -210,14 +210,13 @@ module.exports.add_product = async (req, res) => {
                 filenames.push(response); // Store the image URL
             }
         }
-        const { name, price, type, Category, quantity, images, Description } = req.body;
+        const { name, price, type, Category, quantity, images, Description,size } = req.body;
         const filename = JSON.parse(Description).map((item, index) => {
             return {
                 linkimage: `${filenames[index]}`,
                 color: item.color
             }
         });
-        console.log(filenames)
 
         const newProduct = await new DBPRODUCT({
             name,
@@ -226,7 +225,8 @@ module.exports.add_product = async (req, res) => {
             Category,
             type,
             images: filenames,
-            mainImage: filenames[0] // Use 'files' for the first file
+            mainImage: filenames[0], // Use 'files' for the first file
+            size,
         });
 
         await newProduct.save();
