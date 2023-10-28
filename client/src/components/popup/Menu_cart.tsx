@@ -18,7 +18,7 @@ export default function Menu_cart(props: any) {
         <div className=' col-span-2 flex flex-col items-center overflow-auto'>
           <h1 className="text-3xl text-center p-5">سلة المشتريات</h1>
           {cart.map((item: any) => (
-            item.images.map((image: any) => (
+            item.images.map(() => (
               <li id='menu_cart_responev' key={item._id} className="p-5 w-full flex gap-1 items-center justify-center space-x-4 border-b border-gray-300">
                 <img
                   className=" w-1/5  space-y-5 h-20 rounded-md"
