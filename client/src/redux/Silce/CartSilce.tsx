@@ -9,6 +9,9 @@ interface Account {
     heart: number;
   };
 }
+function calculateTotalPrice(items:any) {
+  return items.reduce((total:any, item:any) => total + (item.count * parseInt(item.price)), 0);
+}
 
 // تحقق من وجود بيانات مخزنة في localStorage واستخدامها كقيم افتراضية إذا وجدت.
 const storedData = localStorage.getItem("cart");
@@ -30,9 +33,10 @@ const AccountSlice = createSlice({
   initialState,
   reducers: {
     additem: (state, action) => {
-      const finditems = state.items.find((item: any) => item._id === action.payload._id);
-
+      const finditems = state.items.find((item: any) => item._id === action.payload._id && item.size === action.payload.size);
       if (!finditems) {
+        console.log(action.payload)
+        console.log(2)
         state.items.push(action.payload);
         state.StatusIconHeader.cart++;
         state.total += parseInt(action.payload.price);
@@ -53,24 +57,32 @@ const AccountSlice = createSlice({
       }
     },
     removeitem: (state, action) => {
-      const finditems = state.items.find((item: any) => item._id === action.payload._id);
-
-      if (finditems) {
-        if (finditems.count === 1) {
-          state.items = state.items.filter((item: any) => item._id !== action.payload._id);
-          state.total -= parseInt(action.payload.price);
+      const { _id, size } = action.payload;
+    
+      // ابحث عن المنتج الذي تريد حذفه بناءً على الـ _id والمقاس
+      const productToRemove = state.items.find((item: any) => item._id === _id && item.size === size);
+    
+      if (productToRemove) {
+        if (productToRemove.count > 1) {
+          // إذا كانت الكمية أكبر من 1، فقط انقرض العدد
+          productToRemove.count--;
         } else {
-          finditems.count--;
-          state.total -= parseInt(action.payload.price);
+          // إذا كانت الكمية تساوي 1، قم بإزالة المنتج بالكامل
+          state.items = state.items.filter((item: any) => !(item._id === _id && item.size === size));
         }
+    
+        // قم بحساب الإجمالي وتحديثه هنا (قد تحتاج لإعادة حساب الإجمالي بالكامل)
+        state.total = calculateTotalPrice(state.items);
+    
         state.StatusIconHeader.cart--;
-
+    
         // تشفير السعر قبل تخزينه في localStorage
         localStorage.setItem("cart", JSON.stringify(state.items));
         localStorage.setItem("total", state.StatusIconHeader.cart.toString());
         localStorage.setItem("price", JSON.stringify(state.total));
       }
-    },
+    }
+    
   },
 });
 

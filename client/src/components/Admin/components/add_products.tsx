@@ -20,6 +20,9 @@ interface ProductData {
     Category: string;
     quantity: string;
     images: File[];
+    maxsize: string;
+    minsize: string;
+    size: string | null
 }
 
 interface ImageData {
@@ -34,6 +37,10 @@ export default function AddProducts() {
         price: '',
         quantity: '',
         images: [],
+        maxsize: "36",
+        minsize: "40",
+        size: null
+
     });
 
     const dispatch = useDispatch();
@@ -47,6 +54,8 @@ export default function AddProducts() {
         backgroundColor: '#DB4444',
         padding: '15px',
     };
+
+
 
     const handleTypeChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -63,7 +72,7 @@ export default function AddProducts() {
             }));
         }
     };
-    1
+
 
     const handleTypeChangeSel = (event: ChangeEvent<HTMLInputElement>) => {
         setData({
@@ -98,8 +107,6 @@ export default function AddProducts() {
         }
     };
 
-
-
     const showButton = () => {
         if (data.images.length > 0) {
             return (
@@ -108,10 +115,24 @@ export default function AddProducts() {
         }
     };
 
+    const createNumberArrayInRange = (maxSize: any, minSize: any) => {
+        const min = parseInt(minSize);
+        const max = parseInt(maxSize);
+
+
+        const numbersInRange = [];
+        for (let i = min; i <= max; i++) {
+            numbersInRange.push(i);
+        }
+        const size = [ ...numbersInRange]; // تحويلها إلى مصفوفة
+        return JSON.stringify(size); // تحويل المصفوفة إلى نص
+    }
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
             if (img) {
+                const size = createNumberArrayInRange(data.maxsize, data.minsize)
                 console.log('true');
                 const formData = new FormData();
                 formData.append('name', data.name);
@@ -123,6 +144,7 @@ export default function AddProducts() {
                 data.images.forEach((image) => {
                     formData.append('images', image);
                 });
+                formData.append('size', size);
 
                 const res = await AxiosDataBase.axiosAdmin.post('/product/add', formData, {
                     headers: {
@@ -141,6 +163,8 @@ export default function AddProducts() {
             console.log(err);
         }
     };
+
+
 
     return (
         <div id='body-products-add' className='relative flex flex-row w-screen h-screen justify-around items-center flex-wrap '>
@@ -204,6 +228,24 @@ export default function AddProducts() {
                                 label='الكمية المتوفرة'
                                 variant='outlined'
                                 value={data.quantity}
+                                onChange={handleTypeChange}
+                            />
+
+
+                        </div>
+                        <div className='flex flex-row flex-wrap pt-10 w-full h-full justify-around items-center'>
+                        <TextField
+                                className='w-1/4'
+                                name='minsize' // تم تصحيح التسمية هنا
+                                label='اقل مقاس'
+                                variant='outlined'
+                                onChange={handleTypeChange}
+                            />
+                            <TextField
+                                className='w-1/4'
+                                name='maxsize'
+                                label='اكبر مقاس'
+                                variant='outlined'
                                 onChange={handleTypeChange}
                             />
                         </div>

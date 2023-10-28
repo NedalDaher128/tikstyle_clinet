@@ -1,20 +1,16 @@
-import { useState, useEffect,useCallback } from 'react';
+import { useState, useEffect } from 'react';
 // useCallback
 import { useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 // import { additem } from '../../../../redux/Silce/CartSilce';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import AxiosDataBase from '../../../../Axios/AxiosDataBase';
 import { Box } from '@mui/material'; // أضفت Box هنا
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import { additem } from '../../../../redux/Silce/CartSilce';
 
 function Filter_products() {
   const [data, setdata] = useState<any>({ type: '', Category: '' });
-  const dispatch = useDispatch()
   const nagitve = useNavigate()
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -28,38 +24,7 @@ function Filter_products() {
   const cart = useSelector((state: any) => state.cart.items);
   console.log(cart);
   const [products, setproducts] = useState<any[]>([]);
-  // تحسين الأداء باستخدام useCallback
-  // const addcartChange = useCallback((shoe: any) => {
-  //   try {
-  //     const modifiedProduct = { ...shoe, count: 1 };
-  //     const existingProduct = JSON.parse(sessionStorage.getItem("cart") || "[]");
-  //     if (existingProduct.length === 0) {
-  //       sessionStorage.setItem("cart", JSON.stringify([modifiedProduct]));
-  //       dispatch(additem(modifiedProduct));
-  //       console.log(cart);
-
-  //     } else if (existingProduct.length > 0) {
-  //       const finditems = existingProduct.find((item: any) => item._id === shoe._id);
-  //       if (!finditems) {
-  //         existingProduct.push(modifiedProduct);
-  //         sessionStorage.setItem("cart", JSON.stringify(existingProduct));
-  //         dispatch(additem(modifiedProduct));
-  //         console.log(cart);
-
-
-  //       } else {
-  //         finditems.count++;
-  //         sessionStorage.setItem("cart", JSON.stringify(existingProduct));
-  //         dispatch(additem(modifiedProduct));
-  //         console.log(cart);
-
-  //       }
-  //     }
-
-  //   } catch (error) {
-  //     console.error(error)
-  //   }
-  // }, [dispatch, additem, cart]);
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -94,39 +59,8 @@ function Filter_products() {
   const movenextpage = (e: React.MouseEvent<HTMLElement>) => {
     const customValue = e.currentTarget.getAttribute('id');
     nagitve(`/product/${customValue}`)
-    // or e.currentTarget.id directly
   }
-  const addcartChange = useCallback((shoe: any) => {
-    try {
-      const modifiedProduct = { ...shoe, count: 1 };
-      const existingProduct = JSON.parse(sessionStorage.getItem("cart") || "[]");
-      if (existingProduct.length === 0) {
-        sessionStorage.setItem("cart", JSON.stringify([modifiedProduct]));
-        dispatch(additem(modifiedProduct));
-        console.log(cart);
 
-      } else if (existingProduct.length > 0) {
-        const finditems = existingProduct.find((item: any) => item._id === shoe._id);
-        if (!finditems) {
-          existingProduct.push(modifiedProduct);
-          sessionStorage.setItem("cart", JSON.stringify(existingProduct));
-          dispatch(additem(modifiedProduct));
-          console.log(cart);
-
-
-        } else {
-          finditems.count++;
-          sessionStorage.setItem("cart", JSON.stringify(existingProduct));
-          dispatch(additem(modifiedProduct));
-          console.log(cart);
-
-        }
-      }
-
-    } catch (error) {
-      console.error(error)
-    }
-  }, [dispatch, additem, cart]);
 
   return (
     <div className='grid grid-rows-1 grid-cols-1 lg:grid-cols-3 gap-4 p-4'>
@@ -211,13 +145,11 @@ function Filter_products() {
                 alt=""
               />
             </Box>
-            <div className=' relative top-10 col-span-2 flex flex-col justify-center items-end ml-5 h-1/2'>
+            <div className=' relative top-5 col-span-2 flex flex-col justify-center items-end ml-5 h-1/2'>
               <p className='text-2xl text-center'>{shoe.name}</p>
               <p className='text-4xl text-center'>${shoe.price}</p>
             </div>
-            <div onClick={addcartChange} className=' relative bottom-10 right-5 col-span-3 bg-red-600 w-10 h-8 flex justify-center items-center rounded-lg  cursor-pointer'>
-              <FontAwesomeIcon icon={faPlus} style={{ color: "white" }} />
-            </div>
+        
           </Box>
         ))
       }

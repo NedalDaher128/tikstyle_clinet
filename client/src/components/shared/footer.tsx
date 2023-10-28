@@ -24,9 +24,6 @@ export default function Footer() {
                 <p>أسئلة متكررة</p>
                 <p>تواصل معنا</p>
             </div>
-            <div className=' col-span-3 mt-10'>
-                <p className="text-gray-500"> © حقوق طبع و النشر لعام 2023 لمتجر tik style و المطور عبد الرحمن الصيفي</p>
-            </div>
         </div>
     )
 }

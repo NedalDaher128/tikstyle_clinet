@@ -1,27 +1,70 @@
+
 import AxiosDataBase from "../../../Axios/AxiosDataBase";
+import { ChangeEvent } from "react"
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import Header from "../../shared/header";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { useDispatch } from 'react-redux';
+import { additem } from '../../../redux/Silce/CartSilce';
+import MenuItem from '@mui/material/MenuItem';
+
 function ProductCard() {
+
+  const [product, setproduct] = useState<any>({})
+  const [size, setsize] = useState<[]>([])
+  const [data, setData] = useState<any>({ size: "" })
+  const { id } = useParams()
+  const dispatch = useDispatch();
+  const addcartChange = () => {
+    try {
+      const modifiedProduct = { ...product, count: 1, size: data.size };
+      const existingProduct = JSON.parse(localStorage.getItem("cart") || "[]");
+
+      if (existingProduct.length === 0) {
+        localStorage.setItem("cart", JSON.stringify([modifiedProduct]));
+      } else {
+        const foundItem = existingProduct.find((item: any) =>
+          item.size === modifiedProduct.size && item._id === modifiedProduct._id
+        );
+
+        if (!foundItem) {
+          existingProduct.push(modifiedProduct);
+        } else {
+          foundItem.count++;
+        }
+
+        localStorage.setItem("cart", JSON.stringify(existingProduct));
+      }
+
+      dispatch(additem(modifiedProduct));
+    } catch (error) {
+      console.error("An error occurred while updating the cart:", error);
+    }
+  };
+  ;
+  const handleTypeChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setData({
+      ...data,
+      [name]: value,
+    });
+  };
   useEffect(() => {
     const GetDate = async () => {
       try {
         const respone = await AxiosDataBase.axiosLogin.get(`/product/get/${id}`)
         setproduct(respone.data.response)
+        if (respone.data.response.size) {
+          setsize(JSON.parse(respone.data.response.size))
+        }
       } catch (error) {
         console.log(error)
       }
     }
     GetDate();
   }, []);
-  const [product, setproduct] = useState<any>({})
-  console.log(product)
-  const { id } = useParams()
-
-
-
 
   return (
     <>
@@ -31,25 +74,29 @@ function ProductCard() {
           {/* card left */}
           <div className="product-imgs">
             <div className="img-display">
-              <div className="img-showcase ">
-                {
-                  product.images && Object.values(product.images).map((item: any) => (
-                    <img className=" " src={item.linkimage} alt="shoe image" />
-                  ))
-                }
-              </div>
+              {
+                product.mainImage && (
+                  <div className="img-showcase ">
+                    <img className=" " src={product.mainImage.linkimage} alt="shoe image" />
+                  </div>
+                )
+
+              }
             </div>
             <div className="img-select">
+
               {
-                product.images && Object.values(product.images).map((item: any) => (
-                  <div className="img-item w-1/5">
+                product.images && Object.values(product.images).map((item: any, index: any) => (
+                  <div key={index} className="img-item w-1/5">
                     <a href="#" data-id="1">
                       <img src={item.linkimage} alt="shoe image" />
                     </a>
                   </div>
+
                 ))
               }
             </div>
+
           </div>
           {/* card right */}
           <div className="product-content">
@@ -76,13 +123,31 @@ function ProductCard() {
             </div>
 
             <div className="flex items-center gap-6">
-              <TextField
-                type="number"
-                inputProps={{ min: 0, max: 10 }}
-              />
-              <Button variant="contained" href="#contained-buttons">
+
+              <Button onClick={addcartChange} variant="contained" sx={{
+                bgcolor: "red"
+              }} href="#contained-buttons">
                 اضف الى عربة التسوق
               </Button>
+              <TextField
+                id='outlined-select-currency'
+                select
+                label='المقاس'
+                value={data.size}
+                name='size' // يجب أن يتماثل الاسم مع القيمة في `data` لكي يتم تحديثها بشكل صحيح
+                onChange={handleTypeChange}
+                className='w-1/3'
+                variant='outlined'
+              >
+                {
+                  size.map((sizeOption, index) => (
+                    <MenuItem key={index} value={sizeOption}>
+                      {sizeOption}
+                    </MenuItem>
+                  ))
+                }
+              </TextField>
+
             </div>
 
 

@@ -22,7 +22,7 @@ export default function Menu_cart(props: any) {
               <li id='menu_cart_responev' key={item._id} className="p-5 w-full flex gap-1 items-center justify-center space-x-4 border-b border-gray-300">
                 <img
                   className=" w-1/5  space-y-5 h-20 rounded-md"
-                  src={`http://localhost:3001/${image.filename}`}
+                  src={item.mainImage.linkimage}
                   alt={item.name}
                 />
                 <div id='menu_grub_cart' className="flex flex-row gap-5 ">

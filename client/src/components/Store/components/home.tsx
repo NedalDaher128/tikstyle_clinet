@@ -9,7 +9,7 @@ function home() {
   return (
     <Box id='box-product' sx={{
       gridTemplateRows: { xs: "repeat(1, 1fr)" },
-    }} className='ml-14 mr-14 mt-20 grid grid-cols-2 grid-rows-4 justify-items-center content-between gap-20'>
+    }} className='ml-10 mr-10 mt-5 grid grid-cols-2 grid-rows-4 justify-items-center content-between gap-20 border-4 border-red-500'>
       {/* الصف الأول */}
       <Box
         className='col-span-3  flex flex-row justify-center items-center'
