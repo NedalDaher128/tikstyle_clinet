@@ -213,10 +213,11 @@ module.exports.add_product = async (req, res) => {
         const { name, price, type, Category, quantity, images, Description,size } = req.body;
         const filename = JSON.parse(Description).map((item, index) => {
             return {
-                linkimage: `${filenames[index]}`,
+                linkimage: `${filenames[index].linkimage}`,
                 color: item.color
             }
         });
+        console.log(filenames)
 
         const newProduct = await new DBPRODUCT({
             name,
@@ -224,9 +225,10 @@ module.exports.add_product = async (req, res) => {
             price,
             Category,
             type,
-            images: filenames,
-            mainImage: filenames[0], // Use 'files' for the first file
+            images: filename,
+            mainImage: filename[0], // Use 'files' for the first file
             size,
+
         });
 
         await newProduct.save();

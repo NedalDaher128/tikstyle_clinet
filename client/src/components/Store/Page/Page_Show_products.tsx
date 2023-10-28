@@ -11,15 +11,17 @@ import { additem } from '../../../redux/Silce/CartSilce';
 import MenuItem from '@mui/material/MenuItem';
 
 function ProductCard() {
-
+  const [currentImageIndex, setCurrentImageIndex] = useState(0); // حالة لتتبع الصورة الحالية
   const [product, setproduct] = useState<any>({})
+  const images = product.images || [];
+  console.log(images)
   const [size, setsize] = useState<[]>([])
   const [data, setData] = useState<any>({ size: "" })
   const { id } = useParams()
   const dispatch = useDispatch();
   const addcartChange = () => {
     try {
-      const modifiedProduct = { ...product, count: 1, size: data.size };
+      const modifiedProduct = { ...product, count: 1, size: data.size,color:images[currentImageIndex].color };
       const existingProduct = JSON.parse(localStorage.getItem("cart") || "[]");
 
       if (existingProduct.length === 0) {
@@ -51,6 +53,7 @@ function ProductCard() {
       [name]: value,
     });
   };
+  
   useEffect(() => {
     const GetDate = async () => {
       try {
@@ -77,10 +80,9 @@ function ProductCard() {
               {
                 product.mainImage && (
                   <div className="img-showcase ">
-                    <img className=" " src={product.mainImage.linkimage} alt="shoe image" />
+                    <img className="" src={images[currentImageIndex].linkimage} alt="shoe image" />
                   </div>
                 )
-
               }
             </div>
             <div className="img-select">
@@ -88,7 +90,7 @@ function ProductCard() {
               {
                 product.images && Object.values(product.images).map((item: any, index: any) => (
                   <div key={index} className="img-item w-1/5">
-                    <a href="#" data-id="1">
+                    <a href="#" data-id={index} onClick={() => setCurrentImageIndex(index)}>
                       <img src={item.linkimage} alt="shoe image" />
                     </a>
                   </div>
@@ -96,7 +98,6 @@ function ProductCard() {
                 ))
               }
             </div>
-
           </div>
           {/* card right */}
           <div className="product-content">
@@ -114,7 +115,7 @@ function ProductCard() {
               <p>الأحذية هي جزء أساسي من حياتنا اليومية، وتلعب دورًا هامًا في تعزيز راحتنا وأناقتنا. في متجرنا، نولي أهمية كبيرة لجودة الأحذية وتصنيعها. نهدف إلى تقديم منتجات عالية الجودة تلبي احتياجات عملائنا وتضمن لهم الراحة والمتانة.</p>
               <p>نحرص على استخدام أفضل الخامات والمواد في تصنيع أحذيتنا. نقوم بانتقاء الجلود والأقمشة بعناية فائقة لضمان تحقيق أعلى مستويات الجودة. كما نسعى دائمًا لتطبيق أحدث التقنيات والتكنولوجيا في صناعة الأحذية لضمان الأداء الأمثل والمتانة.</p>
               <ul>
-                <li>الون:<span>{product.color ? `لون المنتج: ${product.color}` : "غير معروف"}</span></li>
+                <li>الون:<span>{product.price ? `${images[currentImageIndex].color}` : "غير معروف"}</span></li>
                 <li>الماركة: <span>{product.type}</span></li>
                 <li>التصنيف: <span>{product.Category}</span></li>
                 <li>توصل: <span>توصل جميع المحفظات</span></li>
