@@ -118,7 +118,7 @@ function ProductCard() {
                 <li>الون:<span>{product.price ? `${images[currentImageIndex].color}` : "غير معروف"}</span></li>
                 <li>الماركة: <span>{product.type}</span></li>
                 <li>التصنيف: <span>{product.Category}</span></li>
-                <li>توصل: <span>توصل جميع المحفظات</span></li>
+                <li>توصيل : لجميع محافاظات الممكلة</li>
                 <li>سعر التوصيل: <span>حسب المنطقة</span></li>
               </ul>
             </div>
