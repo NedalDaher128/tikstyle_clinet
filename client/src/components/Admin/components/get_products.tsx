@@ -72,7 +72,6 @@ export default function DataTable() {
   return (
     <div>
       {state && <Show_image trigger={state} image={img} />}
-
       {/* تكوين جدول البيانات */}
       <div className=' w-full'>
         <DataGrid

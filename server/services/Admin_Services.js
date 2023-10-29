@@ -4,6 +4,7 @@ const DBADMIN = require("../module/Admin")
 const DBPRODUCT = require("../module/Product")
 const DBUSER = require("../module/Account")
 const DBCOUPON = require("../module/Coupon")
+const DBORDER = require("../module/Order")
 const bcrypt = require("bcrypt");
 const nodemailer = require('nodemailer');
 const jwt = require("jsonwebtoken")
@@ -430,4 +431,11 @@ module.exports.update_coupon = async (req, res) => {
         res.status(400).json({ message: "There is an error accessing the admin page. Please contact the developer as soon as possible" });
     }
 }
-    
+module.exports.get_order = async(req,res)=>{
+    try{
+        const AllOrders = await DBORDER.find({})
+        res.status(201).json({AllOrders})
+    }catch(error){
+        res.status(201).json({error})
+    }
+}

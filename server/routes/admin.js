@@ -12,7 +12,7 @@ const upload = multer({ storage: storage });
 
 
 
-const {  URLEcn, add_admin , login_admin , check_token,refresh_token,add_product,get_product , remove_product, update_product,update_images,get_users,remove_user,update_user,add_coupon,get_coupon,update_coupon} = require("../services/Admin_Services")
+const {  URLEcn, add_admin , login_admin , check_token,refresh_token,add_product,get_product , remove_product, update_product,update_images,get_users,remove_user,update_user,add_coupon,get_coupon,update_coupon,get_order} = require("../services/Admin_Services")
 router.post("/product/add", upload.array("images") ,add_product);
 router.post("/addAdmin",add_admin)
 router.post("/addURlAdmin",URLEcn)
@@ -23,6 +23,7 @@ router.post("/coupon/add",add_coupon)
 router.get("/coupon/get",get_coupon)
 router.get("/product/get",get_product)
 router.get("/user/get",get_users)
+router.get("/order/get",get_order)
 router.put("/product/update",update_product)
 router.put("/image/update/:id",upload.array("images"),update_images )
 router.put("/user/update/:id",update_user)

@@ -29,6 +29,7 @@ const PageListUsers = lazy(() => import('./components/Admin/page/PageListUsers')
 const PageListCoupons = lazy(() => import('./components/Admin/page/PageListCoupons'));
 const HomePageAdmin = lazy(()=> import('./components/Admin/page/HomePageAdmin'))
 const ProtectedDashBord = lazy(()=> import('./components/Admin/components/ProtectedDashBord'))
+const PageOrderAdmin = lazy(()=> import('./components/Admin/page/PageOrder'))
 // globalsytle
 import GlobalStyle from './assets/CSS/GlobalStyles';
 
@@ -94,6 +95,7 @@ export default function App() {
                 <Route path='/admin/products/list' element={<PageListProducts />} />
                 <Route path='/admin/customers' element={<PageListUsers />} />
                 <Route path='/admin/coupons' element={<PageListCoupons />} />
+                <Route path='/admin/orders' element={<PageOrderAdmin />} />
               </Route>
             </Routes>
           </BrowserRouter>

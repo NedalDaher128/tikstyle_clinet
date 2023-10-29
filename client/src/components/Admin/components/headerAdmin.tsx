@@ -56,7 +56,7 @@ function HeaderAdmin() {
                         </div>
                         <div className="flex items-center gap-2">
                             <FontAwesomeIcon className="text-gray-400" icon={faShop} />
-                            <Link className="transition-colors hover:text-red-400 text-color_admin " to={"/admin/orders"}>أدارة المنتجات</Link>
+                            <Link className="transition-colors hover:text-red-400 text-color_admin " to={"/admin/orders"}>أدارة الطلبات</Link>
                         </div>
                         <div className="flex items-center gap-2">
                             <FontAwesomeIcon className="text-gray-400" icon={faUsers} />
