@@ -9,7 +9,10 @@ export default function Menu_cart(props: any) {
   const dispatch = useDispatch();
   const cart = useSelector((state: any) => state.cart.items);
   console.log(cart);
-
+  const buttonStyle: React.CSSProperties = {
+    color: 'white',
+    backgroundColor: '#DB4444',
+};
 
   return (
     <div className='overflowcart'>
@@ -37,12 +40,12 @@ export default function Menu_cart(props: any) {
                   </div>
                 </div>
 
-                <Button className='mt-10' onClick={() => dispatch(removeitem(item))} variant="contained"> حذف</Button>
+                <Button style={buttonStyle} className='mt-10' onClick={() => dispatch(removeitem(item))} variant="contained"> حذف</Button>
 
               </li>
           ))}
           <Link className=' m-10 ml-14' to={'/order'}>
-            <Button className=' m-20' variant="contained">دفع الان</Button>
+            <Button  style={buttonStyle} className=' m-20 bg-red-600' variant="contained">دفع الان</Button>
           </Link>
         </div>
       </div>

@@ -129,8 +129,11 @@ export default function Order() {
       deliveryPrice: 3,
     },
   ];
-
-
+  const buttonStyle: React.CSSProperties = {
+    color: 'white',
+    backgroundColor: '#DB4444',
+    padding: '15px',
+};
   const handlesetdate = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === "city") {
@@ -239,6 +242,7 @@ export default function Order() {
             </TextField>
             <Button
               variant="contained"
+              style={buttonStyle}
               onClick={submitorder}
               className='col-span-3'
               href="#contained-buttons"
@@ -280,6 +284,7 @@ export default function Order() {
                 />
                 <Button
                   variant="contained"
+                  style={buttonStyle}
                   onClick={handleusecoupon}
                   className='col-span-3'
                   href="#contained-buttons"
