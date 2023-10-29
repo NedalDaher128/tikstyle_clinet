@@ -44,7 +44,7 @@ function HeaderAdmin() {
             {menuVisible && ( // عرض القائمة إذا كانت مرئية
             <Box sx={{
                 position : {xs:"absolute" , md:"relative"},
-                height :{xs:"80vh",md:"110vh"},
+                height :{xs:"100vh",md:"110vh"},
                 width:{xs:"173px",md:"220px"}
                 
             }} className= ' rounded-md relative z-50 w-[173px] p-10  h-full flex flex-col  ' style={{ backgroundColor: "#1E1E1E" }}>

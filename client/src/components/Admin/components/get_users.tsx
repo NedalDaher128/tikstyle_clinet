@@ -57,9 +57,10 @@ export default function DataTable() {
     <>
 
       {/* تكوين جدول البيانات */}
-      <div className=' dataGrid-responve  w-full'>
+      <div className='  w-full'>
         <DataGrid
-          sx={{ width: '100%' }}
+          className=' w-screen  '
+          sx={{ height:"100vh"}}
           rows={rows}
           columns={columns}
           autoPageSize
