@@ -206,7 +206,7 @@ module.exports.check_token = async (req, res) => {
 };
 module.exports.add_order = async (req, res) => {
     try {
-        const { id, cart, address, name, city, phone, price } = req.body;
+        const { id, cart, address, name, city, phone, price,status } = req.body;
         console.log(cart)
         const result = await new DBORDER({
             user: id,
@@ -215,7 +215,8 @@ module.exports.add_order = async (req, res) => {
             name,
             city,
             phone,
-            price
+            price,
+            status
         })
         await result.save();
         return res.status(201).json({ result });

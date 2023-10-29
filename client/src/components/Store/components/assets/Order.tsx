@@ -6,8 +6,11 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box'; // استيراد Box من Mui بدلاً من div
 import AxiosDataBase from '../../../../Axios/AxiosDataBase';
 import { useCookies } from 'react-cookie';
-
+import { ToastContainer } from 'react-toastify'; // مكتبة لعرض رسائل سريعة
+import { show_message } from '../../../shared/messagepouporder'; // استدعاء الرسالة التي ستظهر
+import { useNavigate } from 'react-router-dom';
 export default function Order() {
+  const nagtive = useNavigate()
   const [totalPrice, setTotalPrice] = useState<string | null>(null);
   const [total, setTotal] = useState<string | null>(null);
   const [cookies] = useCookies(['tokenUser']);
@@ -21,7 +24,8 @@ export default function Order() {
     price: 0,
     coupon: "",
     cart: useSelector((state: any) => state.cart.items),
-    deliveryPrice: 0
+    deliveryPrice: 0,
+    status: "التجهيز"
   });
   const getid = async () => {
     try {
@@ -43,15 +47,20 @@ export default function Order() {
   }
   const submitorder = async (e: React.MouseEvent) => {
     e.preventDefault();
+    console.log(1)
     try {
       const response = await AxiosDataBase.axiosLogin.post("/order/add", data);
       if (response.data.result) {
-
+        show_message()
+        setTimeout(function () {
+          localStorage.clear();
+          nagtive("/")
+        }, 2000); // 2000 مللي ثانية تعادل ثانيتين
       }
     } catch (error) {
       console.log(error);
     }
-  } 
+  }
   useEffect(() => {
     getid()
     setTotalPrice(localStorage.getItem("price"));
@@ -122,7 +131,7 @@ export default function Order() {
   ];
 
 
-    const handlesetdate = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlesetdate = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === "city") {
       const finditems = jordanGovernorates.find((item) => item.name === value);
@@ -169,6 +178,18 @@ export default function Order() {
       <h1 className='col-span-2'>ارسال طلب</h1>
       {parseInt(total || '0') > 0 ? (
         <>
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
           <Box
             className=' flex flex-col gap-5'
             sx={{
@@ -217,13 +238,13 @@ export default function Order() {
               ))}
             </TextField>
             <Button
-                variant="contained"
-                onClick={submitorder}
-                className='col-span-3'
-                href="#contained-buttons"
-              >
-                ارسال الطلب
-              </Button>
+              variant="contained"
+              onClick={submitorder}
+              className='col-span-3'
+              href="#contained-buttons"
+            >
+              ارسال الطلب
+            </Button>
           </Box>
           <Box
             className='  '

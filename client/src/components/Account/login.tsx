@@ -12,7 +12,7 @@ import Button from '@mui/material/Button'; // زر من تصميم
 import { show_message } from '../shared/messagepoup'; // استدعاء الرسالة التي ستظهر
 import Animation_Login from "../Admin/Animation/Animation_Login"; // الصورة المتحركة
 
-// تعريف أنواع البيانات المستخدمة في النموذج
+// تعريف أنواع البيانا"..ت المستخدمة في النموذج
 type FormValuesKeys = keyof FormValues;
 // تعريف أنواع البيانات المستخدمة في النموذج
 interface FormValues {
