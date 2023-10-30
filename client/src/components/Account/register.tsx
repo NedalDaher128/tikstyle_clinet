@@ -1,6 +1,6 @@
 //  المكتبات الأساسية
 import React, { ChangeEvent, useState } from 'react'
-import { Link,useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 import { login } from "../../redux/Silce/AccountSilce"
 import AxiosDataBase from "../../Axios/AxiosDataBase"
@@ -12,6 +12,7 @@ import Animation_Login from "../Admin/Animation/Animation_Login"
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import 'react-toastify/dist/ReactToastify.css';
+import { Box } from '@mui/system';
 
 
 // تعريف نوع البيانات
@@ -27,7 +28,7 @@ type FromValueskey = keyof FormValue
 export default function Login(): JSX.Element {
   // متغير المسؤول عن معلومات انشاء الحساب
   const [valueform, setvalueform] = React.useState<FormValue>({ username: "", name: "", email: "", password: "" });
-  let [message_error , set_message_error] = useState<FormValue>({ username: "", name: "", email: "", password: "" })
+  let [message_error, set_message_error] = useState<FormValue>({ username: "", name: "", email: "", password: "" })
   const dispatch = useDispatch()
   const nagtive = useNavigate()
 
@@ -43,7 +44,7 @@ export default function Login(): JSX.Element {
         nagtive("/")
       }
 
-    } catch (error:any) {
+    } catch (error: any) {
       // هنا يمكنك التعامل مع أي خطأ قد يحدث أثناء الطلب إلى الخادم (مثل عرض رسالة خطأ للمستخدم)
       set_message_error(error.response.data.handleErrorsm)
     }
@@ -80,7 +81,11 @@ export default function Login(): JSX.Element {
 
 
   return (
-    <div dir='rtl' id='content_login' className=' flex flex-row  justify-around'>
+    <Box className="flex flex-row  justify-between items-center   "
+      sx={{
+        flexDirection: { xs: "column", md: "row" }
+      }}
+    >
       <ToastContainer
         position="top-center"
         autoClose={5000}
@@ -93,37 +98,41 @@ export default function Login(): JSX.Element {
         pauseOnHover
         theme="light"
       />      {/* صورة تعبيرية  */}
-      <Animation_Login />
       {/* جدول ويحتوي على الحقول المسوؤلة عن انشاء الحساب */}
-      <form className=' p-52' onSubmit={AxiosRegister}>
-        {/* نصوص رئيسية */}
-        <h1 className=' text-4xl'>حساب جديد</h1>
-        <p className=' text-xl'>ادخل تفاصيل حسابك في الحقول</p>
-        <div className='flex flex-col gap-10'>
-          {/* حلقة تكرارية لأنشاء حقول الادخال */}
-          {inputFeiild.map((item) => (
-            <div>
-            <TextField dir='rtl'
-              key={item.type}
-              inputProps={{ style: { width: '340px', borderColor: "red" } }}
-              id={item.type}
-              label={item.label}
-              name={item.type}
-              type={item.type === "password" ? "password" : "text"}
-              value={valueform[item.type as FromValueskey]}
-              onChange={handleInputData}
-              variant="standard"
-            />
-            <p className='text-red-500' >{message_error[item.type as keyof FormValue]}</p>
-            </div>
-          ))}
-          {/* زر لارسال الطلب لانشاء الحساب */}
-          <Button type='submit' style={buttonStyle} variant="contained">انشاء حساب</Button>
-          {/* رابط سريع لصفحة تسجيل الدخول */}
-          <Link to="/login">هل لديك حساب مسبقا قم بتسجيل الدخول</Link>
-        </div>
-      </form>
-    </div>
+      <div className='  basis-1/3'>
+        <form onSubmit={AxiosRegister} className='flex flex-col  justify-center '>
+          {/* نصوص رئيسية */}
+          <h1 className=' text-4xl'>حساب جديد</h1>
+          <p className=' text-xl'>ادخل تفاصيل حسابك في الحقول</p>
+          <div className='flex flex-col gap-10'>
+            {/* حلقة تكرارية لأنشاء حقول الادخال */}
+            {inputFeiild.map((item) => (
+              <div>
+                <TextField dir='rtl'
+                  key={item.type}
+                  inputProps={{ style: { width: '340px', borderColor: "red" } }}
+                  id={item.type}
+                  label={item.label}
+                  name={item.type}
+                  type={item.type === "password" ? "password" : "text"}
+                  value={valueform[item.type as FromValueskey]}
+                  onChange={handleInputData}
+                  variant="standard"
+                />
+                <p className='text-red-500' >{message_error[item.type as keyof FormValue]}</p>
+              </div>
+            ))}
+            {/* زر لارسال الطلب لانشاء الحساب */}
+            <Button type='submit' style={buttonStyle} variant="contained">انشاء حساب</Button>
+            {/* رابط سريع لصفحة تسجيل الدخول */}
+            <Link to="/login">هل لديك حساب مسبقا قم بتسجيل الدخول</Link>
+          </div>
+        </form>
+      </div>
+      <div className='basis-1/2' >
+        <Animation_Login />
+      </div>
+    </Box>
 
   );
 }

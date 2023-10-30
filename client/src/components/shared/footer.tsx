@@ -4,11 +4,7 @@ export default function Footer() {
         <div id='footer' className=' grid grid-cols-3  justify-items-center	content-center	'>
             <div id='box_footer' className='flex flex-col text-white'>
                 <h1>الدعم الفني</h1>
-                <p>
-                    عنوان شارع الجامعة
-                </p>
-                <p>test@gmail.com</p>
-                <p>0797514430</p>
+                <p>0799848597</p>
             </div>
             <div id='box_footer' className='flex flex-col text-white'>
                 <h1>حساب</h1>
