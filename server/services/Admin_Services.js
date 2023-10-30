@@ -215,7 +215,8 @@ module.exports.add_product = async (req, res) => {
         const filename = JSON.parse(Description).map((item, index) => {
             return {
                 linkimage: `${filenames[index].linkimage}`,
-                color: item.color
+                filename: item.name,
+                color: item.color,
             }
         });
         console.log(filenames)
